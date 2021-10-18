@@ -1,0 +1,7 @@
+{
+  "name": "hypergol",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
