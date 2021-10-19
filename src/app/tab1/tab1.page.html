@@ -1,21 +1,39 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
+    <ion-title text-center>
+      Hypergol
     </ion-title>
+    <!--
+    <ion-card color="primary">
+      <ion-card-header>
+        <ion-card-subtitle>
+          10D : 11H : 24M 03S until SpaceX...
+        </ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>-->
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title class="ion-text-center" size="large"><b>HYPERGOL</b></ion-title>
+
     </ion-toolbar>
   </ion-header>
 
-  <ion-list>
-    <ion-item *ngFor="let launch of launches$|async">
-      <ion-label class="ion-text-wrap" [routerLink]="['/launches', launch.id]">{{launch.name}}</ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-card *ngFor="let launch of launches$|async" [routerLink]="['/launches', launch.id]">
+    <img src={{launch.image}} sizes="small" />
+    <ion-card-header>
+      <ion-card-title>{{launch.name}}</ion-card-title>
+      <ion-card-subtitle>
+        {{launch.rocket.configuration.name}} | {{launch.launch_service_provider.name}}
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      {{launch.net}}
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

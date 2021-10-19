@@ -1,9 +1,76 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>launch-detail</ion-title>
+    <ion-title text-center>
+      Hypergol
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title class="ion-text-center" size="large"><b>HYPERGOL</b></ion-title>
 
-</ion-content>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content *ngIf="launch$ | async; let launch">
+
+    <!--Description-->
+    <ion-card>
+      <img src={{launch.image}} />
+      <ion-card-header>
+        <ion-card-title size="medium">{{launch.name}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        {{launch.mission.description}}
+      </ion-card-content>
+    </ion-card>
+
+    <!--Mission-->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title size="medium">Mission</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Name: {{launch.mission.name}}</p>
+        <p>Description: {{launch.mission.description}}</p>
+        <p>Type: {{launch.mission.type}}</p>
+        <p>Launch Designator: {{launch.mission.launch_designator}}</p>
+        <h3>Orbit</h3>
+        <p>Name: {{launch.mission.orbit.name}}</p>
+        <p>Abbev: {{launch.mission.orbit.abbev}}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!--Rocket-->
+    <ion-card>
+      <img src={{launch.image}} />
+      <ion-card-header>
+        <ion-card-title size="medium">Rocket</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{launch.rocket.configuration.name}}</p>
+        <p>{{launch.rocket.configuration.family}}</p>
+        <p>{{launch.rocket.configuration.full_name}}</p>
+        <p>{{launch.rocket.configuration.variant}}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!--Pad-->
+    <ion-card>
+      <img src={{launch.pad.map_image}} />
+      <ion-card-header>
+        <ion-card-title size="medium">Launch Pad</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{launch.pad.name}}</p>
+        <p>{{launch.pad.latitude}}</p>
+        <p>{{launch.pad.longitude}}</p>
+        <p>{{launch.pad.location.name}} | {{launch.pad.location.country_code}}</p>
+        <p>Launch Count: {{launch.pad.location.total_launch_count}}</p>
+        <p>Landing Count: {{launch.pad.location.total_landing_count}}</p>
+      </ion-card-content>
+    </ion-card>
+    <!--Links-->
+  </ion-content>
