@@ -9,8 +9,8 @@ import { map } from 'rxjs/operators';
 })
 export class LaunchApiService {
 
-  //apiBase = "https://lldev.thespacedevs.com" // DEV version of the API
-  apiBase = "https://lldev.thespacedevs.com/2.2.0/launch";
+  //apiBase = "https://ll.thespacedevs.com/2.2.0/launch" // PROD version of the API
+  apiBase = "https://lldev.thespacedevs.com/2.2.0/launch";  // DEV version of the API
 
   constructor(private http: HttpClient) { }
 
