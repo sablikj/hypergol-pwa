@@ -13,11 +13,32 @@ export class Tab1Page {
   launches: Launch[] = [];
   launches$: Observable<Launch[]>;
   launch_date: any;
+  //firstLaunch: boolean;
+  //index: number;
 
   constructor(private apiService: LaunchApiService) {
     this.launches$ = this.apiService.getUpcomingLaunches$();
     this.apiService.getUpcomingLaunches$().subscribe(data => {
+      /*
+      this.index = 0;
+      for (let i = 0; i < data.length; i++) {
+        var date = new Date(data[i].window_start).getTime();
+
+        if (date < new Date().getTime()) {
+          continue;
+        } else {
+          if (!this.firstLaunch) {
+            this.launch_date = data[i].window_start;
+          }
+          this.launches[this.index] = data[i];
+          this.index++;
+
+          this.firstLaunch = true;
+        }
+      }*/
+
       this.launches = data;
+
       this.launch_date = data[0].window_start;
     })
   }
@@ -33,9 +54,13 @@ export class Tab1Page {
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
     this.demo = "T -   " + days + "  Days  " + hours + "  Hours  " + minutes + "  Minutes  " + seconds + "  Seconds";
 
-    if (distance < 0) {
+    if (distance < 0 && distance > -10000) {
       clearInterval(this.x);
       this.demo = "Launching now!";
+    }
+    else if (distance < -10000) {
+      clearInterval(this.x);
+      this.demo = "Recently launched."
     }
   })
 }

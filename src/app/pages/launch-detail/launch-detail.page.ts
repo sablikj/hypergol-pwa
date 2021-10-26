@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Launch } from 'src/app/models/launch.model';
+import { LaunchDetail } from 'src/app/models/launchDetail.model';
 import { LaunchApiService } from 'src/app/services/launch-api.service';
 
 @Component({
@@ -11,8 +11,8 @@ import { LaunchApiService } from 'src/app/services/launch-api.service';
 })
 export class LaunchDetailPage implements OnInit {
 
-  launch$: Observable<Launch>;
-  launch: Launch;
+  launch$: Observable<LaunchDetail>;
+  launch: LaunchDetail;
   launch_date: any;
 
   constructor(private apiService: LaunchApiService, private route: ActivatedRoute) {

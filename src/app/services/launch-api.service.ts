@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Launch } from '../models/launch.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { Launch } from '../models/launch.model';
+import { LaunchDetail } from '../models/launchDetail.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,6 @@ export class LaunchApiService {
   }
 
   getUpcomingLaunch$(id) {
-    return this.http.get<Launch>(this.apiBase + "/upcoming/" + id);
+    return this.http.get<LaunchDetail>(this.apiBase + "/upcoming/" + id + "/?mode=detailed&format=json");
   }
 }
