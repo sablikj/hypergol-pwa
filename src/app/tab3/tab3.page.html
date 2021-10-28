@@ -1,17 +1,47 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 3
+    <ion-title text-center>
+      Wiki
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content class="card-background-page" [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
+      <ion-title class="ion-text-center" size="large"><b>Wiki</b></ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-searchbar animated></ion-searchbar>
+
+  <ion-card href="/launches">
+    <ion-img src="assets/wiki/fhlaunch2.jpg"></ion-img>
+    <div class="card-title">Launches</div>
+  </ion-card>
+
+  <ion-card href="/rockets">
+    <ion-img src="assets/wiki/shuttle2.jpg"></ion-img>
+    <div class="card-title">Rockets</div>
+  </ion-card>
+
+  <ion-card>
+    <ion-img src="assets/wiki/vab2.jpg"></ion-img>
+    <div class="card-title">Agencies</div>
+  </ion-card>
+
+  <ion-card>
+    <ion-img src="assets/wiki/rs25.jpg"></ion-img>
+    <div class="card-title">Rocket engines</div>
+  </ion-card>
+  <!--
+  <ion-card>
+    <ion-img src="//tutorialsplane.com/wp-content/uploads/2017/01/tomato-1862857__340.jpg"></ion-img>
+    <div class="card-title">Astronauts</div>
+  </ion-card>
+  <ion-card>
+    <ion-img src="//tutorialsplane.com/wp-content/uploads/2017/01/tomato-1862857__340.jpg"></ion-img>
+    <div class="card-title">Space Stations</div>
+  </ion-card>
+-->
 </ion-content>

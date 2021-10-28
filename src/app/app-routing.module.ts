@@ -9,7 +9,15 @@ const routes: Routes = [
   {
     path: 'launches/:id',
     loadChildren: () => import('./pages/launch-detail/launch-detail.module').then(m => m.LaunchDetailPageModule)
+  },  {
+    path: 'launches',
+    loadChildren: () => import('./pages/wiki/launches/launches.module').then( m => m.LaunchesPageModule)
+  },
+  {
+    path: 'rockets',
+    loadChildren: () => import('./pages/wiki/rockets/rockets.module').then( m => m.RocketsPageModule)
   }
+
 ];
 @NgModule({
   imports: [
