@@ -13,35 +13,28 @@ export class Tab1Page {
   launches: Launch[] = [];
   launches$: Observable<Launch[]>;
   launch_date: any;
-  //firstLaunch: boolean;
-  //index: number;
+  showID: number;
+  counter: number;
 
   constructor(private apiService: LaunchApiService) {
     this.launches$ = this.apiService.getUpcomingLaunches$();
     this.apiService.getUpcomingLaunches$().subscribe(data => {
-      /*
-      this.index = 0;
-      for (let i = 0; i < data.length; i++) {
-        var date = new Date(data[i].window_start).getTime();
-
-        if (date < new Date().getTime()) {
-          continue;
-        } else {
-          if (!this.firstLaunch) {
-            this.launch_date = data[i].window_start;
-          }
-          this.launches[this.index] = data[i];
-          this.index++;
-
-          this.firstLaunch = true;
-        }
-      }*/
-
       this.launches = data;
 
-      this.launch_date = data[0].window_start;
+      // Showing countdown and info to upcoming flight
+      for (let i = 0; i < this.launches.length; i++) {
+        var launchDate = new Date(this.launches[i].window_start).getTime();
+        if (launchDate > new Date().getTime()) {
+          //Displaying information
+          this.showID = i;
+          // Displaying countdown
+          this.launch_date = this.launches[i].window_start;
+          break;
+        }
+      }
     })
   }
+
 
   demo: any;
   x = setInterval(() => {

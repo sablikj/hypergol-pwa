@@ -33,9 +33,10 @@
         <ion-item>
           Window Start: {{launch.window_start | date:'medium'}}
         </ion-item>
-        <ion-item>
+        <!--
+        <ion-item *ngIf="launch.vidURLs[0].url != null">
           Webcast: <a href={{launch.vidURLs[0].url}}> Youtube</a>
-        </ion-item>
+        </ion-item>-->
       </ion-list>
     </ion-card>
 

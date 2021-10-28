@@ -14,17 +14,19 @@
   </ion-header>
 
   <!--Content-->
-  <ion-card color="warning" *ngIf="launches$ | async; let launch" [routerLink]="['/launches', launch[0].id]">
+  <ion-card color="warning" *ngIf="launches$ | async; let launch" [routerLink]="['/launches', launch[showID].id]">
     <ion-card-header>
       <h5><b>{{ demo }}</b></h5>
     </ion-card-header>
     <ion-card-content>
-      <h2><b>{{ launch[0].launch_service_provider.name }}</b> will launch <b>{{ launch[0].mission.name }}</b>
-        mission on it's <b>{{ launch[0].rocket.configuration.name }}</b> rocket from <b>{{ launch[0].pad.name }}</b>.
+      <h2><b>{{ launch[showID].launch_service_provider.name }}</b> will launch <b>{{ launch[showID].mission.name }}</b>
+        mission on it's <b>{{ launch[showID].rocket.configuration.name }}</b> rocket from <b>{{
+          launch[showID].pad.name}}</b> launch pad.
       </h2>
     </ion-card-content>
+
   </ion-card>
-  <ion-card *ngFor="let launch of launches$|async" [routerLink]="['/launches', launch.id]">
+  <ion-card *ngFor="let launch of launches$|async|slice:showID" [routerLink]="['/launches', launch.id]">
     <img src={{launch.image}} sizes="small" />
     <ion-card-header>
       <ion-card-title>{{launch.name}}</ion-card-title>
