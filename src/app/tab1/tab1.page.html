@@ -13,7 +13,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <!--Content-->
+  <!--Countdown-->
   <ion-card color="warning" *ngIf="launches$ | async; let launch" [routerLink]="['/launches', launch[showID].id]">
     <ion-card-header>
       <h5><b>{{ demo }}</b></h5>
@@ -24,20 +24,27 @@
           launch[showID].pad.name}}</b> launch pad.
       </h2>
     </ion-card-content>
-
   </ion-card>
-  <ion-card *ngFor="let launch of launches$|async|slice:showID" [routerLink]="['/launches', launch.id]">
-    <img src={{launch.image}} sizes="small" />
-    <ion-card-header>
-      <ion-card-title>{{launch.name}}</ion-card-title>
-      <ion-card-subtitle>
-        {{launch.rocket.configuration.name}} | {{launch.launch_service_provider.name}}
-      </ion-card-subtitle>
-    </ion-card-header>
+  <!--Launches-->
+  <ion-list>
+    <ion-card *ngFor="let launch of launches|slice:showID" [routerLink]="['/launches', launch.id]">
+      <img src={{launch.image}} sizes="small" />
+      <ion-card-header>
+        <ion-card-title>{{launch.name}}</ion-card-title>
+        <ion-card-subtitle>
+          {{launch.rocket.configuration.name}} | {{launch.launch_service_provider.name}}
+        </ion-card-subtitle>
+      </ion-card-header>
 
-    <ion-card-content>
-      {{launch.net | date:'medium'}}
-    </ion-card-content>
-  </ion-card>
+      <ion-card-content>
+        {{launch.net | date:'medium'}}
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+  <ion-infinite-scroll position="bottom" threshold="20%" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 
 </ion-content>
