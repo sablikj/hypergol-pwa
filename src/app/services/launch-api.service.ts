@@ -13,16 +13,11 @@ export class LaunchApiService {
 
   //apiBase = "https://ll.thespacedevs.com/2.2.0" // PROD version of the API
   apiBase = "https://lldev.thespacedevs.com/2.2.0";  // DEV version of the API
-  //offset = 0;
-  //setOffset = 0;
+
 
   constructor(private http: HttpClient) { }
 
-  // $ - for methods returning observable obj
-  getUpcomingLaunches$(offset): Observable<Launch[]> {    //IMPLEMENT INFINITY SCROLL
-    //return this.http.get<Launch>(this.apiBase + "/launch/upcoming/?mode=detailed&format=json&limit=15").pipe(map(res => res['results']))
-    //this.setOffset = this.offset;
-    //this.offset += 10;
+  getUpcomingLaunches$(offset): Observable<Launch[]> {
     return this.http.get<Launch>(this.apiBase + "/launch/upcoming/?mode=detailed&format=json&limit=15&offset=" + offset).pipe(map(res => res['results']))
   }
 

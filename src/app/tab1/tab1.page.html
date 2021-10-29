@@ -14,17 +14,18 @@
   </ion-header>
 
   <!--Countdown-->
-  <ion-card color="warning" *ngIf="launches$ | async; let launch" [routerLink]="['/launches', launch[showID].id]">
+  <ion-card color="warning" *ngIf="upcomingLaunch" [routerLink]="['/launches', upcomingLaunch.id ]">
     <ion-card-header>
       <h5><b>{{ demo }}</b></h5>
     </ion-card-header>
     <ion-card-content>
-      <h2><b>{{ launch[showID].launch_service_provider.name }}</b> will launch <b>{{ launch[showID].mission.name }}</b>
-        mission on it's <b>{{ launch[showID].rocket.configuration.name }}</b> rocket from <b>{{
-          launch[showID].pad.name}}</b> launch pad.
+      <h2><b>{{ upcomingLaunch.launch_service_provider.name }}</b> will launch <b>{{ upcomingLaunch.mission.name }}</b>
+        mission on it's <b>{{ upcomingLaunch.rocket.configuration.name }}</b> rocket from <b>{{
+          upcomingLaunch.pad.name}}</b> launch pad.
       </h2>
     </ion-card-content>
   </ion-card>
+
   <!--Launches-->
   <ion-list>
     <ion-card *ngFor="let launch of launches|slice:showID" [routerLink]="['/launches', launch.id]">
