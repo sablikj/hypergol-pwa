@@ -25,11 +25,15 @@ export class LaunchApiService {
     return this.http.get<LaunchDetail>(this.apiBase + "/launch/upcoming/" + id + "/?mode=detailed&format=json");
   }
 
-  getLaunches$(): Observable<Launch[]> {
-    return this.http.get<Launch>(this.apiBase + "/launch/?mode=detailed&format=json").pipe(map(res => res['results']))
+  getLaunches$(offset): Observable<Launch[]> {
+    return this.http.get<Launch>(this.apiBase + "/launch/?mode=detailed&format=json&limit=30&offset=" + offset).pipe(map(res => res['results']))
   }
 
   getLaunch$(id) {
     return this.http.get<LaunchDetail>(this.apiBase + "/launch/" + id + "/?mode=detailed&format=json");
+  }
+
+  searchLaunch$(searchTerm): Observable<Launch[]> {
+    return this.http.get<Launch>(this.apiBase + "/launch/?mode=detailed&format=json&search=" + searchTerm).pipe(map(res => res['results']))
   }
 }
