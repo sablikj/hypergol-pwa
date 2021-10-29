@@ -1,0 +1,61 @@
+<ion-header [translucent]="true" *ngIf="rocket">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title text-center>
+      {{rocket.full_name}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!--Basic info-->
+  <ion-card>
+    <img src={{rocket.image_url}} />
+    <ion-card-header color="warning">
+      <ion-card-title>{{rocket.full_name}}</ion-card-title>
+    </ion-card-header>
+    <ion-list>
+      <ion-item>
+        Description:
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <!--Rocket parameters-->
+  <ion-card>
+    <ion-card-header color="warning">
+      <ion-card-title size="small">Rocket parameters</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <!--Manufacturer-->
+  <ion-card>
+    <ion-card-header color="warning">
+      <ion-card-title size="small">Manufacturer</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <!--Program-->
+  <ion-card>
+    <ion-card-header color="warning">
+      <ion-card-title size="small">Program</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <!--Statistics-->
+  <ion-card>
+    <ion-card-header color="warning">
+      <ion-card-title size="small">Statistics</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <!--Links-->
+  <ion-card>
+    <ion-card-header color="warning">
+      <ion-card-title size="small">Links</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+</ion-content>

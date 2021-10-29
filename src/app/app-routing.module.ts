@@ -9,13 +9,18 @@ const routes: Routes = [
   {
     path: 'launches/:id',
     loadChildren: () => import('./pages/launch-detail/launch-detail.module').then(m => m.LaunchDetailPageModule)
-  },  {
+  },
+  {
     path: 'launches',
-    loadChildren: () => import('./pages/wiki/launches/launches.module').then( m => m.LaunchesPageModule)
+    loadChildren: () => import('./pages/wiki/launches/launches.module').then(m => m.LaunchesPageModule)
   },
   {
     path: 'rockets',
-    loadChildren: () => import('./pages/wiki/rockets/rockets.module').then( m => m.RocketsPageModule)
+    loadChildren: () => import('./pages/wiki/rockets/rockets.module').then(m => m.RocketsPageModule)
+  },
+  {
+    path: 'rockets/:id',
+    loadChildren: () => import('./pages/wiki/rocket-detail/rocket-detail.module').then(m => m.RocketDetailPageModule)
   }
 
 ];

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { Launch } from '../models/launch.model';
 import { LaunchDetail } from '../models/launchDetail.model';
+import { Rocket } from '../models/rocket.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +22,6 @@ export class LaunchApiService {
     return this.http.get<Launch>(this.apiBase + "/launch/upcoming/?mode=detailed&format=json&limit=15&offset=" + offset).pipe(map(res => res['results']))
   }
 
-  getUpcomingLaunch$(id) {
-    return this.http.get<LaunchDetail>(this.apiBase + "/launch/upcoming/" + id + "/?mode=detailed&format=json");
-  }
-
   getLaunches$(offset): Observable<Launch[]> {
     return this.http.get<Launch>(this.apiBase + "/launch/?mode=detailed&format=json&limit=30&offset=" + offset).pipe(map(res => res['results']))
   }
@@ -35,5 +32,18 @@ export class LaunchApiService {
 
   searchLaunch$(searchTerm): Observable<Launch[]> {
     return this.http.get<Launch>(this.apiBase + "/launch/?mode=detailed&format=json&search=" + searchTerm).pipe(map(res => res['results']))
+  }
+
+  getRockets$(offset): Observable<Rocket[]> {
+    return this.http.get<Rocket>(this.apiBase + "/config/launcher/?mode=detailed&format=json&limit=30&offset=" + offset).pipe(map(res => res['results']))
+  }
+
+  searchRocket$(searchTerm): Observable<Rocket[]> {
+    return this.http.get<Rocket>(this.apiBase + "/config/launcher/?mode=detailed&format=json&search=" + searchTerm).pipe(map(res => res['results']))
+  }
+
+  //REWORK to pass data from wiki page -> no need for another API call
+  getRocket$(id) {
+    return this.http.get<Rocket>(this.apiBase + "/config/launcher/" + id + "/?mode=detailed&format=json");
   }
 }
