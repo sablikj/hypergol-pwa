@@ -12,11 +12,13 @@
 <ion-content [fullscreen]="true">
   <ion-content *ngIf="launch">
     <!--Countdown-->
-    <ion-card color="warning">
-      <ion-card-content>
-        <h5><b>{{ countdown }}</b></h5>
-      </ion-card-content>
-    </ion-card>
+    <div *ngIf="!countdownHide">
+      <ion-card color="warning">
+        <ion-card-content>
+          <h5><b>{{ countdown }}</b></h5>
+        </ion-card-content>
+      </ion-card>
+    </div>
     <!--Description-->
     <ion-card>
       <img src={{launch.image}} />

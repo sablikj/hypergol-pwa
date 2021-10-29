@@ -59,10 +59,17 @@ export class LaunchesPage implements OnInit {
     if (!searchTerm) {
       return;
     }
+    if (searchTerm == "") {
+      this.launches = this.launchesBackup;
+    }
 
     this.searchResults$ = this.apiService.searchLaunch$(searchTerm);
     this.apiService.searchLaunch$(searchTerm).subscribe(data => {
       return this.launches = data;
     })
+  }
+
+  clear() {
+    this.launches = this.launchesBackup;
   }
 }

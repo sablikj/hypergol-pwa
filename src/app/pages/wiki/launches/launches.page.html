@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-searchbar animated (ionInput)="search($event)"></ion-searchbar>
+  <ion-searchbar animated (ionInput)="search($event)" (ionClear)="clear()"></ion-searchbar>
   <!--Launches-->
   <ion-list>
     <ion-card *ngFor="let launch of launches" [routerLink]="['/launches', launch.id]">
