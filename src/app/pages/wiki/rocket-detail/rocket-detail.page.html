@@ -11,19 +11,29 @@
 
 <ion-content [fullscreen]="true">
   <!--Basic info-->
-  <ion-card>
+  <ion-card class="card-background-page">
     <img src={{rocket.image_url}} />
     <ion-card-header color="warning">
       <ion-card-title>{{rocket.full_name}}</ion-card-title>
     </ion-card-header>
     <ion-list>
       <ion-item>
-        Description:
+        <p>{{rocket.description}}</p>
+      </ion-item>
+      <ion-item>
+        Name: {{rocket.name}}
+      </ion-item>
+      <ion-item>
+        Full Name: {{rocket.full_name}}
+      </ion-item>
+      <ion-item>
+        Family: {{rocket.family}}
       </ion-item>
     </ion-list>
   </ion-card>
 
   <!--Rocket parameters-->
+  <!--ADD card subtitles-->
   <ion-card>
     <ion-card-header color="warning">
       <ion-card-title size="small">Rocket parameters</ion-card-title>
@@ -34,7 +44,34 @@
   <ion-card>
     <ion-card-header color="warning">
       <ion-card-title size="small">Manufacturer</ion-card-title>
+      <ion-card-subtitle>{{rocket.manufacturer.name}}</ion-card-subtitle>
     </ion-card-header>
+    <ion-list>
+      <ion-item>
+        <p>{{rocket.manufacturer.description}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Type: {{rocket.manufacturer.type}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Administrator: {{rocket.manufacturer.administrator}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Year Founded: {{rocket.manufacturer.founding_year}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Rockets: {{rocket.manufacturer.launchers}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Total Launch Count: {{rocket.manufacturer.total_launch_count}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Failed Launches: {{rocket.manufacturer.failed_launches}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Successful Booster Landings: {{rocket.manufacturer.successful_landings}}</p>
+      </ion-item>
+    </ion-list>
   </ion-card>
 
   <!--Program-->
@@ -42,6 +79,20 @@
     <ion-card-header color="warning">
       <ion-card-title size="small">Program</ion-card-title>
     </ion-card-header>
+    <ion-card *ngFor="let program of rocket.program">
+      <ion-card-header color="primary">
+        <ion-card-title size="small">{{program.name}}</ion-card-title>
+      </ion-card-header>
+      <ion-list>
+        <ion-item>
+          <p>{{program.description}}</p>
+        </ion-item>
+        <ion-item *ngFor="let agency of program.agencies">
+          Name: {{agency.name}}
+          Type: {{agency.type}}
+        </ion-item>
+      </ion-list>
+    </ion-card>
   </ion-card>
 
   <!--Statistics-->

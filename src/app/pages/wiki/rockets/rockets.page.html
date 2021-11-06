@@ -13,7 +13,7 @@
   <ion-searchbar animated (ionInput)="search($event)" (ionClear)="clear()"></ion-searchbar>
   <!--Launches-->
   <ion-list>
-    <ion-card *ngFor="let rocket of rockets" [routerLink]="['/rockets', rocket.id, rocket]">
+    <ion-card *ngFor="let rocket of rockets" [routerLink]="['/rockets', rocket.id]">
       <img src={{rocket.image_url}} sizes="small" />
       <ion-card-header>
         <ion-card-title>{{rocket.full_name}}</ion-card-title>

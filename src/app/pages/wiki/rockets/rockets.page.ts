@@ -23,7 +23,7 @@ export class RocketsPage implements OnInit {
   searchResults$: Observable<Rocket[]>;
   searchResults: Rocket[] = [];
 
-  RocketsBackup: Rocket[] = [];
+  rocketsBackup: Rocket[] = [];
 
   offset = 0;
 
@@ -50,14 +50,14 @@ export class RocketsPage implements OnInit {
 
   // Search
   search(event) {
-    this.RocketsBackup = this.rockets;
+    this.rocketsBackup = this.rockets;
     const searchTerm = event.srcElement.value;
 
     if (!searchTerm) {
       return;
     }
     if (searchTerm == "") {
-      this.rockets = this.RocketsBackup;
+      this.rockets = this.rocketsBackup;
     }
 
     this.searchResults$ = this.apiService.searchRocket$(searchTerm);
@@ -67,7 +67,7 @@ export class RocketsPage implements OnInit {
   }
 
   clear() {
-    this.rockets = this.RocketsBackup;
+    this.rockets = this.rocketsBackup;
   }
 
 }

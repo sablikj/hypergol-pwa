@@ -9,138 +9,133 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-content *ngIf="launch">
-    <!--Countdown-->
-    <div *ngIf="!countdownHide">
-      <ion-card color="warning">
-        <ion-card-content>
-          <h5><b>{{ countdown }}</b></h5>
-        </ion-card-content>
-      </ion-card>
-    </div>
-    <!--Description-->
-    <ion-card>
-      <img src={{launch.image}} />
-      <ion-card-header color="warning">
-        <ion-card-title>{{launch.name}}</ion-card-title>
-      </ion-card-header>
-      <ion-list>
-        <ion-item>
-          Description: {{launch.status.description}}
-        </ion-item>
-        <ion-item>
-          Status: {{launch.status.name}}
-        </ion-item>
-        <ion-item>
-          Window Start: {{launch.window_start | date:'medium'}}
-        </ion-item>
-        <!--
-        <ion-item *ngIf="launch.vidURLs[0].url != null">
-          Webcast: <a href={{launch.vidURLs[0].url}}> Youtube</a>
-        </ion-item>-->
-      </ion-list>
+<ion-content [fullscreen]="true" *ngIf="launch">
+  <!--Countdown-->
+  <div *ngIf="!countdownHide">
+    <ion-card color="warning">
+      <ion-card-content>
+        <h5><b>{{ countdown }}</b></h5>
+      </ion-card-content>
     </ion-card>
+  </div>
+  <!--Description-->
+  <ion-card>
+    <img src={{launch.image}} />
+    <ion-card-header color="warning">
+      <ion-card-title>{{launch.name}}</ion-card-title>
+      <ion-chip float-right>
+        <ion-label color="secondary">{{ launch.mission.orbit.name}}</ion-label>
+      </ion-chip>
+      <ion-chip text-right color="primary">
+        <ion-label color="dark">{{ launch.mission.type}}</ion-label>
+      </ion-chip>
+    </ion-card-header>
+    <ion-list lines="none">
+      <ion-item>
+        <p>{{launch.mission.description}}</p>
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Status</b></ion-label>
+        {{launch.status.name}}
+      </ion-item>
+      <ion-item>
+        <ion-label><b>NET</b></ion-label>
+        {{launch.window_start | date:'medium'}}
+      </ion-item>
+    </ion-list>
+  </ion-card>
 
-    <!--Updates-->
-    <ion-card>
-      <ion-card-header color="warning">
-        <ion-card-title size="small">Updates</ion-card-title>
-      </ion-card-header>
-      <ion-list>
-        <ion-item *ngFor="let post of launch.updates.reverse();">
-          <p><b>{{post.created_on | date}}</b> | {{post.comment}}</p>
-        </ion-item>
-      </ion-list>
+  <!--Updates-->
+  <ion-card>
+    <ion-card-header color="warning">
+      <ion-card-title size="small">Updates</ion-card-title>
+    </ion-card-header>
+    <ion-card *ngFor="let post of launch.updates.reverse();">
+      <ion-card-header><b>{{post.created_on | date}}</b></ion-card-header>
+      <ion-card-content>{{post.comment}}</ion-card-content>
     </ion-card>
+  </ion-card>
 
-    <!--Mission-->
-    <ion-card>
-      <ion-card-header color="warning">
-        <ion-card-title size="medium">Mission</ion-card-title>
-      </ion-card-header>
-      <ion-list>
-        <ion-item>
-          Name: {{launch.mission.name}}
-        </ion-item>
-        <ion-item>
-          Description: {{launch.mission.description}}
-        </ion-item>
-        <ion-item>
-          Type: {{launch.mission.type}}
-        </ion-item>
-        <ion-item>
-          Orbit: {{launch.mission.orbit.name}}
-        </ion-item>
-      </ion-list>
-    </ion-card>
+  <!--Rocket-->
+  <ion-card>
+    <img src={{launch.image}} />
+    <ion-card-header color="warning">
+      <ion-card-title size="medium">Rocket</ion-card-title>
+      <ion-card-subtitle>{{launch.rocket.configuration.name}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list lines="none">
+      <ion-item>
+        <p>{{launch.rocket.configuration.description}}</p>
+      </ion-item>
+      <ion-item *ngIf="launch.rocket.configuration.variant != ''">
+        <ion-label><b>Variant</b></ion-label>
+        <p>{{launch.rocket.configuration.variant}}</p>
+      </ion-item>
+      <ion-item *ngIf="launch.rocket.configuration.variant != ''">
+        <ion-label><b>Maiden Flight</b></ion-label>
+        <p>{{launch.rocket.configuration.maiden_flight | date}}</p>
+      </ion-item>
+      <ion-item *ngIf="launch.rocket.configuration.leo_capacity != null">
+        <ion-label><b>LEO Capatity</b></ion-label>
+        <p>{{launch.rocket.configuration.leo_capacity}} Kg</p>
+      </ion-item>
+      <ion-item *ngIf="launch.rocket.configuration.gto_capacity != null">
+        <ion-label><b>GTO Capacity</b></ion-label>
+        <p>{{launch.rocket.configuration.gto_capacity}} Kg</p>
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Total Launch Count</b></ion-label>
+        <p>{{launch.rocket.configuration.total_launch_count}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-card>
 
-    <!--Rocket-->
-    <ion-card>
-      <img src={{launch.image}} />
-      <ion-card-header color="warning">
-        <ion-card-title size="medium">Rocket</ion-card-title>
-      </ion-card-header>
-      <ion-list>
-        <ion-item>
-          Name: {{launch.rocket.configuration.name}}
-        </ion-item>
-        <ion-item>
-          Description: {{launch.rocket.configuration.description}}
-        </ion-item>
-        <ion-item>
-          Variant: {{launch.rocket.configuration.variant}}
-        </ion-item>
-        <ion-item>
-          Maiden Flight: {{launch.rocket.configuration.maiden_flight | date}}
-        </ion-item>
-        <ion-item>
-          Total Launch Count: {{launch.rocket.configuration.total_launch_count}}
-        </ion-item>
-      </ion-list>
-    </ion-card>
+  <!--Pad-->
+  <ion-card href="{{launch.pad.map_url}}">
+    <img src={{launch.pad.map_image}} />
+    <ion-card-header color="warning">
+      <ion-card-title size="medium">Launch Pad</ion-card-title>
+      <ion-card-subtitle>{{launch.pad.name}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label><b>Location</b></ion-label>
+        <p text-wrap>{{launch.pad.location.name}}</p>
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Total Launch Count</b></ion-label>
+        <p>{{launch.pad.total_launch_count}}</p>
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Total Landing Count</b></ion-label>
+        <p>{{launch.pad.location.total_landing_count}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-card>
 
-    <!--Pad-->
-    <ion-card>
-      <img src={{launch.pad.map_image}} />
-      <ion-card-header color="warning">
-        <ion-card-title size="medium">Launch Pad</ion-card-title>
-      </ion-card-header>
-      <ion-list>
-        <ion-item>
-          Name: {{launch.pad.name}}
-        </ion-item>
-        <ion-item>
-          Location: {{launch.pad.location.name}}
-        </ion-item>
-        <ion-item>
-          Total Launch Count: {{launch.pad.total_launch_count}}
-        </ion-item>
-        <ion-item>
-          Total Landing Count: {{launch.pad.location.total_landing_count}}
-        </ion-item>
-      </ion-list>
-    </ion-card>
-
-    <!--Links-->
-    <!--Statistics-->
-    <ion-card>
-      <ion-card-header color="warning">
-        <ion-card-title size="medium">Statistics</ion-card-title>
-      </ion-card-header>
-      <ion-list>
-        <ion-item>
-          Total orbital launch attempt: {{launch.orbital_launch_attempt_count}}
-        </ion-item>
-        <ion-item>
-          Total {{launch.launch_service_provider.name}} launch attempt: {{launch.agency_launch_attempt_count}}
-        </ion-item>
-        <ion-item>
-          Orbital launch attempt in 2021: {{launch.orbital_launch_attempt_count_year}}
-        </ion-item>
-        <ion-item>
-          {{launch.launch_service_provider.name}} launch attempt in 2021: {{launch.agency_launch_attempt_count_year}}
-        </ion-item>
-      </ion-list>
-    </ion-card>
-  </ion-content>
+  <!--Links-->
+  <!--Statistics-->
+  <ion-card>
+    <ion-card-header color="warning">
+      <ion-card-title size="medium">Statistics</ion-card-title>
+    </ion-card-header>
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label text-wrap><b>Total Orbital Launch Attempt</b></ion-label>
+        <p>{{launch.orbital_launch_attempt_count}}</p>
+      </ion-item>
+      <ion-item>
+        <ion-label text-wrap><b>Orbital Launch Attempt in 2021</b></ion-label>
+        <p>{{launch.orbital_launch_attempt_count_year}}</p>
+      </ion-item>
+      <ion-item>
+        <ion-label text-wrap><b> Total <i>{{launch.launch_service_provider.name}}</i> launch attempt</b></ion-label>
+        <p>{{launch.agency_launch_attempt_count}}</p>
+      </ion-item>
+      <ion-item>
+        <ion-label text-wrap><b><i>{{launch.launch_service_provider.name}}</i> Launch Attempt in 2021</b></ion-label>
+        <p>{{launch.agency_launch_attempt_count_year}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>
