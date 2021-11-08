@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Launch } from '../models/launch.model';
 import { LaunchDetail } from '../models/launchDetail.model';
 import { Rocket } from '../models/rocket.model';
+import { Agency } from '../models/agency.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class LaunchApiService {
   }
 
   getLaunches$(offset): Observable<Launch[]> {
-    return this.http.get<Launch>(this.apiBase + "/launch/?mode=detailed&format=json&limit=30&offset=" + offset).pipe(map(res => res['results']))
+    return this.http.get<Launch>(this.apiBase + "/launch/?mode=detailed&format=json&limit=30&offset=" + offset).pipe(map(res => res['results']));
   }
 
   getLaunch$(id) {
@@ -31,19 +32,31 @@ export class LaunchApiService {
   }
 
   searchLaunch$(searchTerm): Observable<Launch[]> {
-    return this.http.get<Launch>(this.apiBase + "/launch/?mode=detailed&format=json&search=" + searchTerm).pipe(map(res => res['results']))
+    return this.http.get<Launch>(this.apiBase + "/launch/?mode=detailed&format=json&search=" + searchTerm).pipe(map(res => res['results']));
   }
 
   getRockets$(offset): Observable<Rocket[]> {
-    return this.http.get<Rocket>(this.apiBase + "/config/launcher/?mode=detailed&format=json&limit=30&offset=" + offset).pipe(map(res => res['results']))
+    return this.http.get<Rocket>(this.apiBase + "/config/launcher/?mode=detailed&format=json&limit=30&offset=" + offset).pipe(map(res => res['results']));
   }
 
   searchRocket$(searchTerm): Observable<Rocket[]> {
-    return this.http.get<Rocket>(this.apiBase + "/config/launcher/?mode=detailed&format=json&search=" + searchTerm).pipe(map(res => res['results']))
+    return this.http.get<Rocket>(this.apiBase + "/config/launcher/?mode=detailed&format=json&search=" + searchTerm).pipe(map(res => res['results']));
   }
 
   //REWORK to pass data from wiki page -> no need for another API call
   getRocket$(id) {
     return this.http.get<Rocket>(this.apiBase + "/config/launcher/" + id + "/?mode=detailed&format=json");
+  }
+
+  getAgencies$(): Observable<Agency[]> {
+    return this.http.get<Agency>(this.apiBase + "/agencies/?mode=detailed&format=json&featured=true&limit=50").pipe(map(res => res['results']));
+  }
+
+  searchAgency$(searchTerm): Observable<Agency[]> {
+    return this.http.get<Rocket>(this.apiBase + "/agencies/?mode=detailed&format=json&featured=true&search=" + searchTerm).pipe(map(res => res['results']));
+  }
+
+  getAgency$(id) {
+    return this.http.get<Agency>(this.apiBase + "agencies/" + id + "/?mode=detailed&format=json");
   }
 }
