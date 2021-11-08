@@ -12,32 +12,60 @@
 <ion-content [fullscreen]="true">
   <!--Basic info-->
   <ion-card class="card-background-page">
-    <img src={{rocket.image_url}} />
+    <img src={{rocket.image_url}} sizes="small" />
     <ion-card-header color="warning">
       <ion-card-title>{{rocket.full_name}}</ion-card-title>
     </ion-card-header>
-    <ion-list>
+    <ion-list lines="none">
       <ion-item>
         <p>{{rocket.description}}</p>
       </ion-item>
       <ion-item>
-        Name: {{rocket.name}}
+        <ion-label><b>Name</b></ion-label>
+        <p text-wrap>{{rocket.name}}</p>
       </ion-item>
       <ion-item>
-        Full Name: {{rocket.full_name}}
-      </ion-item>
-      <ion-item>
-        Family: {{rocket.family}}
+        <ion-label><b>Family</b></ion-label>
+        <p text-wrap>{{rocket.family}}</p>
       </ion-item>
     </ion-list>
   </ion-card>
 
   <!--Rocket parameters-->
-  <!--ADD card subtitles-->
   <ion-card>
     <ion-card-header color="warning">
       <ion-card-title size="small">Rocket parameters</ion-card-title>
     </ion-card-header>
+    <ion-list lines="none">
+      <ion-item *ngIf="rocket.length != null">
+        <ion-label><b>Length</b></ion-label>
+        <p>{{rocket.length}} m</p>
+      </ion-item>
+      <ion-item *ngIf="rocket.diameter != null">
+        <ion-label><b>Diameter</b></ion-label>
+        <p>{{rocket.diameter}} m</p>
+      </ion-item>
+      <ion-item *ngIf="rocket.max_stage != null">
+        <ion-label><b>Number of Stages</b></ion-label>
+        <p>{{rocket.max_stage}}</p>
+      </ion-item>
+      <ion-item *ngIf="rocket.launch_mass != null">
+        <ion-label><b>Launch Mass</b></ion-label>
+        <p>{{rocket.launch_mass}} t</p>
+      </ion-item>
+      <ion-item *ngIf="rocket.to_thrust != null">
+        <ion-label><b>Engine Thrust</b></ion-label>
+        <p>{{rocket.to_thrust}} kN</p>
+      </ion-item>
+      <ion-item *ngIf="rocket.leo_capacity != null">
+        <ion-label><b>LEO Capacity</b></ion-label>
+        <p>{{rocket.leo_capacity}} kg</p>
+      </ion-item>
+      <ion-item *ngIf="rocket.gto_capacity != null">
+        <ion-label><b>GTO Capacity</b></ion-label>
+        <p>{{rocket.gto_capacity}} kg</p>
+      </ion-item>
+    </ion-list>
   </ion-card>
 
   <!--Manufacturer-->
@@ -46,36 +74,44 @@
       <ion-card-title size="small">Manufacturer</ion-card-title>
       <ion-card-subtitle>{{rocket.manufacturer.name}}</ion-card-subtitle>
     </ion-card-header>
-    <ion-list>
+    <ion-list lines="none">
       <ion-item>
         <p>{{rocket.manufacturer.description}}</p>
       </ion-item>
-      <ion-item>
-        <p>Type: {{rocket.manufacturer.type}}</p>
+      <ion-item *ngIf="rocket.manufacturer.type != ''">
+        <ion-label><b>Type</b></ion-label>
+        <p>{{rocket.manufacturer.type}}</p>
       </ion-item>
-      <ion-item>
-        <p>Administrator: {{rocket.manufacturer.administrator}}</p>
+      <ion-item *ngIf="rocket.manufacturer.administrator != ''">
+        <ion-label><b>Administrator</b></ion-label>
+        <p text-wrap>{{rocket.manufacturer.administrator}}</p>
       </ion-item>
-      <ion-item>
-        <p>Year Founded: {{rocket.manufacturer.founding_year}}</p>
+      <ion-item *ngIf="rocket.manufacturer.founding_year != null">
+        <ion-label><b>Founded</b></ion-label>
+        <p>{{rocket.manufacturer.founding_year}}</p>
       </ion-item>
-      <ion-item>
-        <p>Rockets: {{rocket.manufacturer.launchers}}</p>
+      <ion-item *ngIf="rocket.manufacturer.launchers != ''">
+        <ion-label><b>Rockets</b></ion-label>
+        <p text-wrap>{{rocket.manufacturer.launchers}}</p>
       </ion-item>
-      <ion-item>
-        <p>Total Launch Count: {{rocket.manufacturer.total_launch_count}}</p>
+      <ion-item *ngIf="rocket.manufacturer.total_launch_count != null">
+        <ion-label><b>Total Launch Count</b></ion-label>
+        <p>{{rocket.manufacturer.total_launch_count}}</p>
       </ion-item>
-      <ion-item>
-        <p>Failed Launches: {{rocket.manufacturer.failed_launches}}</p>
+      <ion-item *ngIf="rocket.manufacturer.failed_launches != null">
+        <ion-label><b>Failed Launches</b></ion-label>
+        <p>{{rocket.manufacturer.failed_launches}}</p>
       </ion-item>
-      <ion-item>
-        <p>Successful Booster Landings: {{rocket.manufacturer.successful_landings}}</p>
+      <ion-item *ngIf="rocket.manufacturer.successful_landings != null && rocket.manufacturer.successful_landings > 0">
+        <ion-label><b>Successful Booster Landings</b></ion-label>
+        <p>{{rocket.manufacturer.successful_landings}}</p>
       </ion-item>
     </ion-list>
   </ion-card>
 
+
   <!--Program-->
-  <ion-card>
+  <ion-card *ngIf="rocket.program.length > 0">
     <ion-card-header color="warning">
       <ion-card-title size="small">Program</ion-card-title>
     </ion-card-header>
@@ -83,13 +119,19 @@
       <ion-card-header color="primary">
         <ion-card-title size="small">{{program.name}}</ion-card-title>
       </ion-card-header>
-      <ion-list>
+      <ion-list lines="none">
         <ion-item>
           <p>{{program.description}}</p>
         </ion-item>
         <ion-item *ngFor="let agency of program.agencies">
-          Name: {{agency.name}}
-          Type: {{agency.type}}
+          <ion-item>
+            <ion-label><b>Name</b></ion-label>
+            <p text-wrap>{{agency.name}}</p>
+          </ion-item>
+          <ion-item>
+            <ion-label><b>Type</b></ion-label>
+            <p>{{agency.type}}</p>
+          </ion-item>
         </ion-item>
       </ion-list>
     </ion-card>
@@ -100,13 +142,23 @@
     <ion-card-header color="warning">
       <ion-card-title size="small">Statistics</ion-card-title>
     </ion-card-header>
+    <ion-list lines="none">
+      <ion-item *ngIf="rocket.total_launch_count != null">
+        <ion-label><b>Total Launch Count</b></ion-label>
+        <p>{{rocket.total_launch_count}}</p>
+      </ion-item>
+      <ion-item *ngIf="rocket.failed_launches != null">
+        <ion-label text-wrap><b>Consecutive Successful Launches</b></ion-label>
+        <p>{{rocket.consecutive_successful_launches}}</p>
+      </ion-item>
+      <ion-item *ngIf="rocket.successful_launches != null">
+        <ion-label><b>Successful Launches</b></ion-label>
+        <p>{{rocket.successful_launches}}</p>
+      </ion-item>
+      <ion-item *ngIf="rocket.failed_launches != null">
+        <ion-label><b>Failed Launches</b></ion-label>
+        <p>{{rocket.successful_launches}}</p>
+      </ion-item>
+    </ion-list>
   </ion-card>
-
-  <!--Links-->
-  <ion-card>
-    <ion-card-header color="warning">
-      <ion-card-title size="small">Links</ion-card-title>
-    </ion-card-header>
-  </ion-card>
-
 </ion-content>

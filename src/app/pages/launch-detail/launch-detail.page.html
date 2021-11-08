@@ -39,14 +39,14 @@
         {{launch.status.name}}
       </ion-item>
       <ion-item>
-        <ion-label><b>NET</b></ion-label>
+        <ion-label><b>Launch Date</b></ion-label>
         {{launch.window_start | date:'medium'}}
       </ion-item>
     </ion-list>
   </ion-card>
 
   <!--Updates-->
-  <ion-card>
+  <ion-card *ngIf="launch.updates.length > 0">
     <ion-card-header color="warning">
       <ion-card-title size="small">Updates</ion-card-title>
     </ion-card-header>
@@ -106,7 +106,7 @@
         <ion-label><b>Total Launch Count</b></ion-label>
         <p>{{launch.pad.total_launch_count}}</p>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="launch.pad.location.total_landing_count > 0">
         <ion-label><b>Total Landing Count</b></ion-label>
         <p>{{launch.pad.location.total_landing_count}}</p>
       </ion-item>
@@ -125,7 +125,8 @@
         <p>{{launch.orbital_launch_attempt_count}}</p>
       </ion-item>
       <ion-item>
-        <ion-label text-wrap><b>Orbital Launch Attempt in 2021</b></ion-label>
+        <ion-label text-wrap><b>Orbital Launch Attempt in {{launch.window_start|date:"medium"|slice:7:11}}</b>
+        </ion-label>
         <p>{{launch.orbital_launch_attempt_count_year}}</p>
       </ion-item>
       <ion-item>
@@ -133,7 +134,8 @@
         <p>{{launch.agency_launch_attempt_count}}</p>
       </ion-item>
       <ion-item>
-        <ion-label text-wrap><b><i>{{launch.launch_service_provider.name}}</i> Launch Attempt in 2021</b></ion-label>
+        <ion-label text-wrap><b><i>{{launch.launch_service_provider.name}}</i> Launch Attempt in
+            {{launch.window_start|date:"medium"|slice:7:11}}</b></ion-label>
         <p>{{launch.agency_launch_attempt_count_year}}</p>
       </ion-item>
     </ion-list>
