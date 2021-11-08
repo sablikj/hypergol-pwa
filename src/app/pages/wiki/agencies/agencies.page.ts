@@ -12,7 +12,12 @@ import { LaunchApiService } from 'src/app/services/launch-api.service';
 export class AgenciesPage implements OnInit {
 
   constructor(private apiService: LaunchApiService) {
-    this.loadAgencies(true, "");
+    this.agencies$ = this.apiService.getAgencies$();
+    this.apiService.getAgencies$().subscribe(data => {
+      for (let i = 0; i < data.length; i++) {
+        this.agencies.push(data[i]);
+      }
+    })
   }
   ngOnInit() { }
 
@@ -22,20 +27,7 @@ export class AgenciesPage implements OnInit {
   agencies$: Observable<Agency[]>;
   searchResults$: Observable<Agency[]>;
   searchResults: Agency[] = [];
-
   agenciesBackup: Agency[] = [];
-
-  offset = 0;
-
-  loadAgencies(isFirstLoad, event) {
-
-    this.agencies$ = this.apiService.getAgencies$();
-    this.apiService.getAgencies$().subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
-        this.agencies.push(data[i]);
-      }
-    })
-  }
 
   // Search
   search(event) {

@@ -11,8 +11,6 @@
 
 <ion-content [fullscreen]="true">
   <ion-searchbar animated (ionInput)="search($event)" (ionClear)="clear()"></ion-searchbar>
-  <!--Launches-->
-
   <ion-card *ngFor="let agency of agencies" [routerLink]="['/agencies', agency.id]">
     <img src={{agency.image_url}} sizes="small" />
     <ion-card-header>

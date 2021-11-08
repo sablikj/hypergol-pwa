@@ -57,6 +57,6 @@ export class LaunchApiService {
   }
 
   getAgency$(id) {
-    return this.http.get<Agency>(this.apiBase + "agencies/" + id + "/?mode=detailed&format=json");
+    return this.http.get<Agency>(this.apiBase + "/agencies/" + id + "/?mode=detailed&format=json");
   }
 }

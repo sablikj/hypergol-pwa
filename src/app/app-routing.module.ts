@@ -21,9 +21,14 @@ const routes: Routes = [
   {
     path: 'rockets/:id',
     loadChildren: () => import('./pages/wiki/rocket-detail/rocket-detail.module').then(m => m.RocketDetailPageModule)
-  },  {
+  },
+  {
     path: 'agencies',
-    loadChildren: () => import('./pages/wiki/agencies/agencies.module').then( m => m.AgenciesPageModule)
+    loadChildren: () => import('./pages/wiki/agencies/agencies.module').then(m => m.AgenciesPageModule)
+  },
+  {
+    path: 'agencies/:id',
+    loadChildren: () => import('./pages/wiki/agency-detail/agency-detail.module').then(m => m.AgencyDetailPageModule)
   }
 
 

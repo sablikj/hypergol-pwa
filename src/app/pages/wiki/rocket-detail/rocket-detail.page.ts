@@ -21,11 +21,6 @@ export class RocketDetailPage implements OnInit {
     this.apiService.getRocket$(id).subscribe(data => {
       this.rocket = data;
     })
-
-
   }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() { }
 }

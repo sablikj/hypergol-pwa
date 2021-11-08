@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" *ngIf="rocket">
   <!--Basic info-->
   <ion-card class="card-background-page">
     <img src={{rocket.image_url}} sizes="small" />
