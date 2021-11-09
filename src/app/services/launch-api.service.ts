@@ -7,6 +7,7 @@ import { Launch } from '../models/launch.model';
 import { LaunchDetail } from '../models/launchDetail.model';
 import { Rocket } from '../models/rocket.model';
 import { Agency } from '../models/agency.model';
+import { Astronaut } from '../models/astronaut.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class LaunchApiService {
 
   constructor(private http: HttpClient) { }
 
+  // Launches
   getUpcomingLaunches$(offset): Observable<Launch[]> {
     return this.http.get<Launch>(this.apiBase + "/launch/upcoming/?mode=detailed&format=json&limit=15&offset=" + offset).pipe(map(res => res['results']))
   }
@@ -35,6 +37,7 @@ export class LaunchApiService {
     return this.http.get<Launch>(this.apiBase + "/launch/?mode=detailed&format=json&search=" + searchTerm).pipe(map(res => res['results']));
   }
 
+  // Rockets
   getRockets$(offset): Observable<Rocket[]> {
     return this.http.get<Rocket>(this.apiBase + "/config/launcher/?mode=detailed&format=json&limit=30&offset=" + offset).pipe(map(res => res['results']));
   }
@@ -48,6 +51,7 @@ export class LaunchApiService {
     return this.http.get<Rocket>(this.apiBase + "/config/launcher/" + id + "/?mode=detailed&format=json");
   }
 
+  //Agencies
   getAgencies$(): Observable<Agency[]> {
     return this.http.get<Agency>(this.apiBase + "/agencies/?mode=detailed&format=json&featured=true&limit=50").pipe(map(res => res['results']));
   }
@@ -58,5 +62,18 @@ export class LaunchApiService {
 
   getAgency$(id) {
     return this.http.get<Agency>(this.apiBase + "/agencies/" + id + "/?mode=detailed&format=json");
+  }
+
+  //Astronauts
+  getAstronauts$(offset): Observable<Astronaut[]> {
+    return this.http.get<Astronaut>(this.apiBase + "/astronaut/?mode=detailed&format=json&order=status&limit=15&offset=" + offset).pipe(map(res => res['results']));
+  }
+
+  searchAstronaut$(searchTerm): Observable<Astronaut[]> {
+    return this.http.get<Astronaut>(this.apiBase + "/astronaut/?mode=detailed&format=json&featured=true&search=" + searchTerm).pipe(map(res => res['results']));
+  }
+
+  getAstronaut$(id) {
+    return this.http.get<Astronaut>(this.apiBase + "/astronaut/" + id + "/?mode=detailed&format=json");
   }
 }

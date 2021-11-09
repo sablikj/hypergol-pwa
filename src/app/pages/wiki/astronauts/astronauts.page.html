@@ -4,26 +4,26 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title text-center>
-      Rockets
+      Astronauts
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-searchbar animated (ionInput)="search($event)" (ionClear)="clear()"></ion-searchbar>
-
+  <!--Launches-->
   <ion-list>
-    <ion-card *ngFor="let rocket of rockets" [routerLink]="['/rockets', rocket.id]">
-      <img src={{rocket.image_url}} sizes="small" />
+    <ion-card *ngFor="let astronaut of astronauts" [routerLink]="['/astronaut', astronaut.id]">
+      <img src={{astronaut.profile_image}} sizes="small" />
       <ion-card-header>
-        <ion-card-title>{{rocket.full_name}}</ion-card-title>
+        <ion-card-title>{{astronaut.name}}</ion-card-title>
         <ion-card-subtitle>
-          {{rocket.variant}} | {{rocket.family}}
+          {{astronaut.nationality}} | {{astronaut.status.name}}
         </ion-card-subtitle>
       </ion-card-header>
     </ion-card>
   </ion-list>
-  <ion-infinite-scroll position="bottom" threshold="60%" (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll position="bottom" threshold="20%" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content loadingSpinner="circular">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>

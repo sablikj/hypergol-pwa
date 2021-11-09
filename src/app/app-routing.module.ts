@@ -29,7 +29,12 @@ const routes: Routes = [
   {
     path: 'agencies/:id',
     loadChildren: () => import('./pages/wiki/agency-detail/agency-detail.module').then(m => m.AgencyDetailPageModule)
+  },
+  {
+    path: 'astronauts',
+    loadChildren: () => import('./pages/wiki/astronauts/astronauts.module').then(m => m.AstronautsPageModule)
   }
+
 
 
 ];
