@@ -17,6 +17,9 @@ export interface Astronaut {
     twitter: string;
     instagram: string;
     wiki: string;
+    last_flight: string;
+    first_flight: string;
+    profile_image: string;
     agency: {
         id: number;
         url: string;
@@ -33,8 +36,32 @@ export interface Astronaut {
         parent: string;
         image_url: string
     };
-    profile_image: string;
-    profile_image_thumbnail: string;
-    last_flight: string;
-    first_flight: string
+    flights: [
+        {
+            id: string;
+            name: string;
+            net: string;
+            launch_service_provider: {
+                id: number;
+                name: string;
+                type: string;
+            };
+
+            mission: {
+                id: number;
+                name: string;
+                description: string;
+                type: string;
+            };
+        }
+    ];
+    landings: [
+        {
+            id: number;
+            url: string;
+            destination: string;
+            mission_end: string;
+            image_url: string;
+        }
+    ]
 }

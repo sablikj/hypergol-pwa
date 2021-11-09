@@ -12,7 +12,7 @@ export interface Launch {
     last_updated: string;
     net: string;
     window_end: string;
-    window_start: string; // Use datetime instead
+    window_start: string;
     probability: number;
     holdreason: string;
     failreason: string;

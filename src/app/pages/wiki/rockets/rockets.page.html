@@ -14,7 +14,7 @@
 
   <ion-list>
     <ion-card *ngFor="let rocket of rockets" [routerLink]="['/rockets', rocket.id]">
-      <img src={{rocket.image_url}} sizes="small" />
+      <ion-img src={{rocket.image_url}}></ion-img>
       <ion-card-header>
         <ion-card-title>{{rocket.full_name}}</ion-card-title>
         <ion-card-subtitle>

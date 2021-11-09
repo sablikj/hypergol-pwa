@@ -1,0 +1,108 @@
+<ion-header [translucent]="true" *ngIf="astronaut">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title text-center>
+      {{astronaut.name}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="astronaut">
+  <!--Basic info-->
+  <ion-card class="card-background-page">
+    <ion-img src={{astronaut.profile_image}} sizes="small"></ion-img>
+    <ion-card-header color="warning">
+      <ion-card-title>{{astronaut.name}}</ion-card-title>
+    </ion-card-header>
+    <ion-list lines="none">
+      <ion-item>
+        <p>{{astronaut.bio}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <!--Details-->
+  <ion-card>
+    <ion-card-header color="warning">
+      <ion-card-title size="small">Details
+        <a *ngIf="astronaut.wiki != null" style="float:right; color: black;" href="{{astronaut.wiki}}">
+          <ion-icon name="information-circle-outline"></ion-icon>
+        </a>
+        <a *ngIf="astronaut.twitter != null" style="float:right; padding-right: 5%; color: black;"
+          href="{{astronaut.twitter}}">
+          <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a *ngIf="astronaut.instagram != null" style="float:right; padding-right: 5%; color: black;"
+          href="{{astronaut.instagram}}">
+          <ion-icon name="logo-instagram"></ion-icon>
+        </a>
+
+      </ion-card-title>
+    </ion-card-header>
+    <ion-list lines="none">
+      <ion-item *ngIf="astronaut.type.name != ''">
+        <ion-label><b>Type</b></ion-label>
+        <p text-wrap>{{astronaut.type.name}}</p>
+      </ion-item>
+      <ion-item *ngIf="astronaut.status.name != ''">
+        <ion-label><b>Status</b></ion-label>
+        <p text-wrap>{{astronaut.status.name}}</p>
+      </ion-item>
+      <ion-item *ngIf="astronaut.date_of_birth != ''">
+        <ion-label><b>Date of Birth</b></ion-label>
+        <p>{{astronaut.date_of_birth | date:'longDate'}}</p>
+      </ion-item>
+      <ion-item *ngIf="astronaut.date_of_death != null">
+        <ion-label><b>Date of Death</b></ion-label>
+        <p>{{astronaut.date_of_death | date:'longDate'}}</p>
+      </ion-item>
+      <ion-item *ngIf="astronaut.nationality != ''">
+        <ion-label><b>Nationality</b></ion-label>
+        <p>{{astronaut.nationality}}</p>
+      </ion-item>
+      <ion-item *ngIf="astronaut.first_flight != ''">
+        <ion-label><b>First Flight</b></ion-label>
+        <p>{{astronaut.first_flight | date:'longDate'}}</p>
+      </ion-item>
+      <ion-item *ngIf="astronaut.last_flight != ''">
+        <ion-label><b>Last Flight</b></ion-label>
+        <p>{{astronaut.last_flight | date:'longDate'}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <!--Agency-->
+  <ion-card>
+    <ion-card-header color="warning">
+      <ion-card-title size="small">Agency</ion-card-title>
+    </ion-card-header>
+    <ion-list lines="none">
+      <ion-item *ngIf="astronaut.agency.name != ''">
+        <ion-label><b>Name</b></ion-label>
+        <p>{{astronaut.agency.name}}</p>
+      </ion-item>
+      <ion-item *ngIf="astronaut.agency.type != ''">
+        <ion-label><b>Type</b></ion-label>
+        <p>{{astronaut.agency.type}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <!--
+  <ion-slides [options]="sliderConfig">
+    <ion-slide *ngFor="let flight of astronaut.flights">
+      <ion-card>
+        <ion-img src={{flight.image_url}} sizes="small"></ion-img>
+        <ion-card-header>
+          <ion-card-title>
+            {{ flight.name }}
+          </ion-card-title>
+          <ion-card-content>
+
+          </ion-card-content>
+        </ion-card-header>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>-->
+</ion-content>

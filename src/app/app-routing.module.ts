@@ -33,7 +33,12 @@ const routes: Routes = [
   {
     path: 'astronauts',
     loadChildren: () => import('./pages/wiki/astronauts/astronauts.module').then(m => m.AstronautsPageModule)
+  },
+  {
+    path: 'astronaut/:id',
+    loadChildren: () => import('./pages/wiki/astronaut-detail/astronaut-detail.module').then(m => m.AstronautDetailPageModule)
   }
+
 
 
 

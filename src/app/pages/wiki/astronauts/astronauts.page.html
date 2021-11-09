@@ -14,7 +14,7 @@
   <!--Launches-->
   <ion-list>
     <ion-card *ngFor="let astronaut of astronauts" [routerLink]="['/astronaut', astronaut.id]">
-      <img src={{astronaut.profile_image}} sizes="small" />
+      <ion-img src={{astronaut.profile_image}} sizes="small"></ion-img>
       <ion-card-header>
         <ion-card-title>{{astronaut.name}}</ion-card-title>
         <ion-card-subtitle>
