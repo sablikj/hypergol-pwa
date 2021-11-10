@@ -111,6 +111,7 @@
 
 
   <!--Program-->
+  <!--
   <ion-card *ngIf="rocket.program.length > 0">
     <ion-card-header color="warning">
       <ion-card-title size="small">Program</ion-card-title>
@@ -135,7 +136,34 @@
         </ion-item>
       </ion-list>
     </ion-card>
+  </ion-card>-->
+
+  <!--Program-->
+  <ion-card style="margin-bottom: -5px;" *ngIf="rocket.program.length > 0">
+    <ion-card-header color="warning">
+      <ion-card-title size="small">Program</ion-card-title>
+    </ion-card-header>
   </ion-card>
+
+  <swiper #swiper [config]="config" *ngIf="rocket.program.length > 0">
+    <ng-template swiperSlide *ngFor="let program of rocket.program">
+      <ion-card style="margin-top: 0px;">
+        <ion-card-header color="medium" text-wrap>
+          <ion-card-title>
+            {{ program.name }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list lines="none">
+            <ion-item>
+              {{program.description}}
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+  </swiper>
+
 
   <!--Statistics-->
   <ion-card>

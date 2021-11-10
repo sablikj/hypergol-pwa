@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Rocket } from 'src/app/models/rocket.model';
 import { LaunchApiService } from 'src/app/services/launch-api.service';
+import { SwiperOptions } from 'swiper';
+import { SwiperComponent } from 'swiper/angular';
+import SwiperCore, { Pagination } from 'swiper';
+
+SwiperCore.use([Pagination]);
 
 @Component({
   selector: 'app-rocket-detail',
   templateUrl: './rocket-detail.page.html',
   styleUrls: ['./rocket-detail.page.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class RocketDetailPage implements OnInit {
+export class RocketDetailPage implements OnInit, AfterContentChecked {
+  @ViewChild('swiper') swiper: SwiperComponent;
 
   rocket$: Observable<Rocket>;
   rocket: Rocket;
@@ -22,5 +29,20 @@ export class RocketDetailPage implements OnInit {
       this.rocket = data;
     })
   }
+
+  config: SwiperOptions = {
+    slidesPerView: 1,
+    spaceBetween: 60,
+    pagination: true,
+  }
+
+  ngAfterContentChecked() {
+    if (this.swiper) {
+      this.swiper.updateSwiper({});
+    }
+  }
+
+
+
   ngOnInit() { }
 }

@@ -24,23 +24,14 @@ export interface Astronaut {
         id: number;
         url: string;
         name: string;
-        featured: boolean;
         type: string;
-        country_code: string;
-        abbrev: string;
-        description: string;
-        administrator: string;
-        founding_year: string;
-        launchers: string;
-        spacecraft: string;
-        parent: string;
-        image_url: string
     };
     flights: [
         {
             id: string;
             name: string;
             net: string;
+            image: string;
             launch_service_provider: {
                 id: number;
                 name: string;
@@ -55,13 +46,4 @@ export interface Astronaut {
             };
         }
     ];
-    landings: [
-        {
-            id: number;
-            url: string;
-            destination: string;
-            mission_end: string;
-            image_url: string;
-        }
-    ]
 }

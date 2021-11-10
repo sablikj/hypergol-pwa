@@ -62,11 +62,11 @@
         <ion-label><b>Nationality</b></ion-label>
         <p>{{astronaut.nationality}}</p>
       </ion-item>
-      <ion-item *ngIf="astronaut.first_flight != ''">
+      <ion-item *ngIf="astronaut.first_flight != null">
         <ion-label><b>First Flight</b></ion-label>
         <p>{{astronaut.first_flight | date:'longDate'}}</p>
       </ion-item>
-      <ion-item *ngIf="astronaut.last_flight != ''">
+      <ion-item *ngIf="astronaut.last_flight != null">
         <ion-label><b>Last Flight</b></ion-label>
         <p>{{astronaut.last_flight | date:'longDate'}}</p>
       </ion-item>
@@ -89,20 +89,31 @@
       </ion-item>
     </ion-list>
   </ion-card>
-  <!--
-  <ion-slides [options]="sliderConfig">
-    <ion-slide *ngFor="let flight of astronaut.flights">
-      <ion-card>
-        <ion-img src={{flight.image_url}} sizes="small"></ion-img>
+
+
+  <!--Flights-->
+  <ion-card style="margin-bottom: -5px;">
+    <ion-card-header color="warning">
+      <ion-card-title size="small">Flights</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <swiper #swiper [config]="config">
+    <ng-template swiperSlide *ngFor="let flight of astronaut.flights">
+      <ion-card style="margin-top: 0px;" [routerLink]="['/launches', flight.id]">
+        <ion-img src={{flight.image}}></ion-img>
         <ion-card-header>
-          <ion-card-title>
+          <ion-card-title text-wrap>
             {{ flight.name }}
           </ion-card-title>
-          <ion-card-content>
-
-          </ion-card-content>
+          <ion-card-subtitle>
+            <p>{{flight.net | date:'longDate'}}</p>
+          </ion-card-subtitle>
         </ion-card-header>
+        <ion-card-content>
+          <p>{{flight.mission.description}}</p>
+        </ion-card-content>
       </ion-card>
-    </ion-slide>
-  </ion-slides>-->
+    </ng-template>
+  </swiper>
 </ion-content>
