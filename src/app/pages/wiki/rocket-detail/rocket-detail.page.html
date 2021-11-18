@@ -12,7 +12,8 @@
 <ion-content [fullscreen]="true" *ngIf="rocket">
   <!--Basic info-->
   <ion-card class="card-background-page">
-    <ion-img src={{rocket.image_url}} sizes="small"></ion-img>
+    <ion-img src={{rocket.image_url}} *ngIf="rocket.image_url != null"></ion-img>
+    <ion-img src="assets/placeholder.jpg" *ngIf="rocket.image_url == null"></ion-img>
     <ion-card-header color="warning">
       <ion-card-title>{{rocket.full_name}}</ion-card-title>
     </ion-card-header>
@@ -81,10 +82,6 @@
       <ion-item *ngIf="rocket.manufacturer.type != ''">
         <ion-label><b>Type</b></ion-label>
         <p>{{rocket.manufacturer.type}}</p>
-      </ion-item>
-      <ion-item *ngIf="rocket.manufacturer.administrator != ''">
-        <ion-label><b>Administrator</b></ion-label>
-        <p text-wrap>{{rocket.manufacturer.administrator}}</p>
       </ion-item>
       <ion-item *ngIf="rocket.manufacturer.founding_year != null">
         <ion-label><b>Founded</b></ion-label>

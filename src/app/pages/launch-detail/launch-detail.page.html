@@ -23,16 +23,22 @@
     <img src={{launch.image}} />
     <ion-card-header color="warning">
       <ion-card-title>{{launch.name}}</ion-card-title>
-      <ion-chip float-right>
-        <ion-label color="secondary">{{ launch.mission.orbit.name}}</ion-label>
-      </ion-chip>
-      <ion-chip text-right color="primary">
-        <ion-label color="dark">{{ launch.mission.type}}</ion-label>
-      </ion-chip>
     </ion-card-header>
     <ion-list lines="none">
       <ion-item>
         <p>{{launch.mission.description}}</p>
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Status</b></ion-label>
+        {{launch.status.name}}
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Orbit</b></ion-label>
+        {{ launch.mission.orbit.name}}
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Mission Type</b></ion-label>
+        {{ launch.mission.type}}
       </ion-item>
       <ion-item>
         <ion-label><b>Status</b></ion-label>

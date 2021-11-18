@@ -9,4 +9,5 @@ export class Tab2Page {
 
   constructor() { }
 
+  theme = window.matchMedia('(prefers-color-scheme: dark)');
 }

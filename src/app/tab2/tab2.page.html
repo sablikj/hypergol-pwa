@@ -13,7 +13,11 @@
     </ion-toolbar>
   </ion-header>
 
-  <ngx-twitter-timeline [source]="{sourceType: 'profile', screenName: 'NASASpaceflight'}"
-    [options]="{chrome: 'noheader nofooter'}">
+  <ngx-twitter-timeline *ngIf="theme.matches" [source]="{sourceType: 'profile', screenName: 'NASASpaceflight'}"
+    [options]="{chrome: 'noheader nofooter', theme: 'dark'}">
+  </ngx-twitter-timeline>
+
+  <ngx-twitter-timeline *ngIf="!theme.matches" [source]="{sourceType: 'profile', screenName: 'NASASpaceflight'}"
+    [options]="{chrome: 'noheader nofooter', theme: 'light'}">
   </ngx-twitter-timeline>
 </ion-content>

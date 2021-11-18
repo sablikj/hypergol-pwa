@@ -14,7 +14,7 @@ import { Astronaut } from '../models/astronaut.model';
 })
 export class LaunchApiService {
 
-  //apiBase = "https://ll.thespacedevs.com/2.2.0" // PROD version of the API
+  //apiBase = "https://ll.thespacedevs.com/2.2.0" // PROD version of the API | 15 calls/ hour
   apiBase = "https://lldev.thespacedevs.com/2.2.0";  // DEV version of the API
 
 

@@ -38,8 +38,8 @@
     </ion-card-header>
     <ion-list lines="none">
       <ion-item *ngIf="agency.administrator != ''">
-        <ion-label><b>Administrator</b></ion-label>
-        <p>{{agency.administrator}}</p>
+        <ion-label text-wrap><b>Administrator</b></ion-label>
+        <p text-wrap>{{agency.administrator}}</p>
       </ion-item>
       <ion-item *ngIf="agency.founding_year != null">
         <ion-label><b>Founding Year</b></ion-label>
