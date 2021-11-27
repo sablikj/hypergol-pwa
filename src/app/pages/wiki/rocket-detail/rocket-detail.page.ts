@@ -6,6 +6,7 @@ import { LaunchApiService } from 'src/app/services/launch-api.service';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 import SwiperCore, { Pagination } from 'swiper';
+import { Storage } from '@capacitor/storage';
 
 SwiperCore.use([Pagination]);
 
@@ -20,15 +21,13 @@ export class RocketDetailPage implements OnInit, AfterContentChecked {
 
   rocket$: Observable<Rocket>;
   rocket: Rocket;
-  //REWORK to pass data from wiki page -> no need for another API call
-  constructor(private apiService: LaunchApiService, private route: ActivatedRoute) {
-    const id = this.route.snapshot.paramMap.get("id");
+  inStorage: boolean = false;
+  id = this.route.snapshot.paramMap.get("id");
 
-    this.rocket$ = this.apiService.getRocket$(id);
-    this.apiService.getRocket$(id).subscribe(data => {
-      this.rocket = data;
-    })
+  constructor(private apiService: LaunchApiService, private route: ActivatedRoute) {
+    this.loadContent();
   }
+  ngOnInit() { }
 
   config: SwiperOptions = {
     slidesPerView: 1,
@@ -42,7 +41,45 @@ export class RocketDetailPage implements OnInit, AfterContentChecked {
     }
   }
 
+  async loadContent() {
+    this.inStorage = await this.checkKeys();
 
+    if (this.inStorage) {
+      // Load launch from storage
+      this.getRocket();
+    }
+    else {
+      this.rocket$ = this.apiService.getRocket$(this.id);
+      this.apiService.getRocket$(this.id).subscribe(data => {
+        this.rocket = data;
 
-  ngOnInit() { }
+        // Save to storage
+        this.setRocket(data);
+      })
+    }
+  }
+
+  async checkKeys() {
+    const keys = (await Storage.keys()).keys;
+
+    if (keys.includes(this.id)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async setRocket(data) {
+    await Storage.set({
+      key: this.id,
+      value: JSON.stringify(data),
+    });
+  }
+
+  async getRocket() {
+    const { value } = await Storage.get({
+      key: this.id
+    });
+    this.rocket = JSON.parse(value);
+  }
 }
