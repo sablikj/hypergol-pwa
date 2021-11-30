@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { LaunchDetail } from 'src/app/models/launchDetail.model';
 import { LaunchApiService } from 'src/app/services/launch-api.service';
-import { Storage } from '@capacitor/storage';
-
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-launch-detail',
@@ -13,69 +11,30 @@ import { Storage } from '@capacitor/storage';
 })
 export class LaunchDetailPage implements OnInit {
 
-  launch$: Observable<LaunchDetail>;
   launch: LaunchDetail;
   launch_date: any;
   countdownHide: boolean;
-  inStorage: boolean = false;
-  id = this.route.snapshot.paramMap.get("id");
+  countdown: any;
+  id: String;
 
-  constructor(private apiService: LaunchApiService, private route: ActivatedRoute) {
-    this.loadContent();
+  constructor(private apiService: LaunchApiService, private storage: StorageService, private route: ActivatedRoute) {
+    this.id = this.route.snapshot.paramMap.get("id");
+    this.loadData();
   }
 
   ngOnInit() { }
 
-  async loadContent() {
-    this.inStorage = await this.checkKeys();
+  async loadData() {
+    this.launch = await this.storage.getLaunch(this.id);
 
-    if (this.inStorage) {
-      // Load launch from storage
-      this.getLaunch();
-    }
-    else {
-      this.launch$ = this.apiService.getLaunch$(this.id);
-      this.apiService.getLaunch$(this.id).subscribe(data => {
-        this.launch = data;
-
-        // Save to storage
-        this.setLaunch(data);
-
-        // Check for an old launch
-        if (new Date(data.window_start).getTime() - new Date().getTime() < -10000000) {
-          this.countdownHide = true;
-        } else {
-          this.launch_date = data.window_start;
-        }
-      })
-    }
-  }
-
-  async checkKeys() {
-    const keys = (await Storage.keys()).keys;
-
-    if (keys.includes(this.id)) {
-      return true;
+    // Check for an old launch
+    if (new Date(this.launch.window_start).getTime() - new Date().getTime() < -10000000) {
+      this.countdownHide = true;
     } else {
-      return false;
+      this.launch_date = this.launch.window_start;
     }
   }
 
-  async setLaunch(data) {
-    await Storage.set({
-      key: this.id,
-      value: JSON.stringify(data),
-    });
-  }
-
-  async getLaunch() {
-    const { value } = await Storage.get({
-      key: this.id
-    });
-    this.launch = JSON.parse(value);
-  }
-
-  countdown: any;
   x = setInterval(() => {
     var now = new Date().getTime();
     var diff = new Date(this.launch_date).getTime() - now;

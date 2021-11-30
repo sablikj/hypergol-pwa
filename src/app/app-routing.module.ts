@@ -37,11 +37,12 @@ const routes: Routes = [
   {
     path: 'astronaut/:id',
     loadChildren: () => import('./pages/wiki/astronaut-detail/astronaut-detail.module').then(m => m.AstronautDetailPageModule)
+  },
+  {
+    path: 'wiki',
+    redirectTo: '/tabs/tab3',
+    pathMatch: 'full'
   }
-
-
-
-
 ];
 @NgModule({
   imports: [
