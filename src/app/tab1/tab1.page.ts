@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Launch } from '../models/launch.model';
 import { LaunchApiService } from '../services/launch-api.service';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-tab1',
@@ -19,46 +20,47 @@ export class Tab1Page {
   launch_date: any;
   showID: number;
   offset = 0;
+  data: Launch[] = [];
 
-  constructor(private apiService: LaunchApiService) {
-    this.loadUpcomingLaunches(true, "");
+  loading: HTMLIonLoadingElement;
+
+  constructor(private apiService: LaunchApiService, private loadingController: LoadingController, private storage: StorageService) {
+    this.loadData(true, "")
   }
 
-  loadUpcomingLaunches(isFirstLoad, event) {
+  async doRefresh(event) {
+    this.launches = await this.storage.refreshLaunches("launches");
+    event.target.complete()
+  }
 
-    this.launches$ = this.apiService.getUpcomingLaunches$(this.offset);
-    this.apiService.getUpcomingLaunches$(this.offset).subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
-        this.launches.push(data[i]);
-      }
-      // Setting new offset for next call
-      this.offset += 10;
+  async loadData(isFirstLoad, event) {
+    this.launches = await this.storage.loadUpcomingLaunches(isFirstLoad, event);
 
-      if (isFirstLoad) {
-        // Showing countdown and info about upcoming flight
-        for (let i = 0; i < this.launches.length; i++) {
-          var launchDate = new Date(this.launches[i].window_start).getTime();
-          if (launchDate > new Date().getTime()) {
-            //Showing onlzy upcoming launches
-            this.showID = i;
+    if (isFirstLoad) {
+      // Showing countdown and info about upcoming flight
+      for (let i = 0; i < this.launches.length; i++) {
+        var launchDate = new Date(this.launches[i].window_start).getTime();
+        if (launchDate > new Date().getTime()) {
+          //Showing onlzy upcoming launches
+          this.showID = i;
 
-            // Displaying countdown and info
-            this.launch_date = this.launches[i].window_start;
-            this.upcomingLaunch = this.launches[i];
+          // Displaying countdown and info
+          this.launch_date = this.launches[i].window_start;
+          this.upcomingLaunch = this.launches[i];
 
-            break;
-          }
+          break;
         }
       }
-      if (!isFirstLoad) {
-        event.target.complete();
-      }
-    })
+    }
   }
 
   // Infinite Scroll
-  doInfinite(event) {
-    this.loadUpcomingLaunches(false, event);
+  async doInfinite(event) {
+    this.data = await this.storage.loadUpcomingLaunches(false, event);
+
+    for (let i = 0; i < this.data.length; i++) {
+      this.launches.push(this.data[i]);
+    }
   }
 
   // Countdown

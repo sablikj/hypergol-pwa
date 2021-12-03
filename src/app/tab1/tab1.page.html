@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title text-center>
+    <ion-title class="ion-text-center">
       Hypergol
     </ion-title>
   </ion-toolbar>
@@ -12,6 +12,10 @@
       <ion-title class="ion-text-center" size="large"><b>HYPERGOL</b></ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content refreshingSpinner="circular"></ion-refresher-content>
+  </ion-refresher>
 
   <!--Countdown-->
   <ion-card color="warning" *ngIf="upcomingLaunch" [routerLink]="['/launches', upcomingLaunch.id ]">

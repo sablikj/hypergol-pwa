@@ -8,6 +8,7 @@ import { LaunchDetail } from 'src/app/models/launchDetail.model';
 import { LaunchApiService } from 'src/app/services/launch-api.service';
 import { Agency } from '../models/agency.model';
 import { Astronaut } from '../models/astronaut.model';
+import { Launch } from '../models/launch.model';
 import { Rocket } from '../models/rocket.model';
 
 @Injectable({
@@ -22,10 +23,69 @@ export class StorageService {
   launch: LaunchDetail;
   agency$: Observable<Agency>;
   agency: Agency;
+  launches: Launch[] = [];
+  launches$: Observable<Launch[]>;
+
+  offset = 0;
 
   loading: HTMLIonLoadingElement;
 
   constructor(private apiService: LaunchApiService, private loadingController: LoadingController) { }
+
+  async loadUpcomingLaunches(isFirstLoad, event) {
+    if (isFirstLoad) {
+      this.loadingController.create({
+        message: 'Please Wait...',
+        spinner: 'circular'
+      }).then(res => {
+        this.loading = res;
+        this.loading.present();
+      });
+    }
+
+    this.launches$ = this.apiService.getUpcomingLaunches$(this.offset);
+    this.launches = await this.apiService.getUpcomingLaunches$(this.offset).toPromise();
+
+    setTimeout(() => {
+      this.loading.dismiss()
+    }, 300);
+
+    // Setting new offset for next call
+    this.offset += 10;
+
+    if (!isFirstLoad) {
+      event.target.complete();
+      return this.launches;
+    }
+    this.saveToStorage(this.launches, "launches")
+    return this.launches;
+  }
+
+  async refreshLaunches(key) {
+    await Storage.remove(key);
+    this.offset = 0;
+
+    this.launches$ = this.apiService.getUpcomingLaunches$(this.offset);
+    this.launches = await this.apiService.getUpcomingLaunches$(this.offset).toPromise();
+
+    // Setting new offset for next call
+    this.offset += 10;
+
+    this.saveToStorage(this.launches, "launches")
+
+    return this.launches;
+  }
+
+  async refreshLaunch(id) {
+    // Remove from storage
+    await Storage.remove(id);
+
+    this.launch$ = this.apiService.getLaunch$(id);
+    this.launch = await this.apiService.getLaunch$(id).toPromise();
+    this.saveToStorage(this.launch, id);
+
+    return this.launch;
+  }
 
   async getRocket(id) {
     this.rocket = await this.checkStorage("R" + id);
