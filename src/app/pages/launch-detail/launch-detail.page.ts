@@ -24,7 +24,12 @@ export class LaunchDetailPage implements OnInit {
 
   ngOnInit() { }
 
-  async loadData() {
+  async doRefresh(event) {
+    this.launch = await this.storage.refreshLaunch(this.id);
+    event.target.complete()
+  }
+
+  async loadData(): Promise<void> {
     this.launch = await this.storage.getLaunch(this.id);
 
     // Check for an old launch
