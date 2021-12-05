@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title class="ion-text-center">
-      Hypergol
+    <ion-title mode="ios">
+      <h1><b>HYPERGOL</b></h1>
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,7 +13,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+  <ion-refresher [disabled]="false" slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content refreshingSpinner="circular"></ion-refresher-content>
   </ion-refresher>
 
@@ -34,22 +34,40 @@
   <ion-list>
     <ion-card *ngFor="let launch of launches|slice:showID" [routerLink]="['/launches', launch.id]">
       <img src={{launch.image}} sizes="small" />
-      <ion-card-header>
-        <ion-card-title>{{launch.name}}</ion-card-title>
+      <ion-card-header style="padding-bottom: 0px;">
+        <ion-card-title><b>{{launch.name}}</b></ion-card-title>
         <ion-card-subtitle>
           {{launch.rocket.configuration.name}} | {{launch.launch_service_provider.name}}
         </ion-card-subtitle>
       </ion-card-header>
-
+      <br>
       <ion-card-content>
-        {{launch.net | date:'medium'}}
+        <ion-chip outline="true" color="primary">
+          <ion-label color="primary">{{launch.net | date:'medium'}}</ion-label>
+        </ion-chip>
       </ion-card-content>
+
+      <!--
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <h3>{{launch.net | date:'medium'}}</h3>
+          </ion-col>
+          <ion-col class="ion-text-end">
+            <ion-chip outline="true" color="danger">
+              <ion-label color="danger">{{ launch.mission.orbit.name}}</ion-label>
+            </ion-chip>
+            <br>
+            <ion-chip outline="true" color="primary">
+              <ion-label color="primary">{{ launch.mission.type}}</ion-label>
+            </ion-chip>
+          </ion-col>
+        </ion-row>
+      </ion-grid>-->
     </ion-card>
   </ion-list>
   <ion-infinite-scroll position="bottom" threshold="20%" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content loadingSpinner="circular">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
-
-
 </ion-content>

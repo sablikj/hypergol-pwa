@@ -32,6 +32,10 @@ export class StorageService {
 
   constructor(private apiService: LaunchApiService, private loadingController: LoadingController) { }
 
+  clear() {
+    Storage.clear();
+  }
+
   async loadUpcomingLaunches(isFirstLoad, event) {
     if (isFirstLoad) {
       this.loadingController.create({
@@ -46,15 +50,16 @@ export class StorageService {
     this.launches$ = this.apiService.getUpcomingLaunches$(this.offset);
     this.launches = await this.apiService.getUpcomingLaunches$(this.offset).toPromise();
 
-    setTimeout(() => {
-      this.loading.dismiss()
-    }, 300);
+    if (isFirstLoad) {
+      setTimeout(() => {
+        this.loading.dismiss()
+      }, 300);
+    }
 
     // Setting new offset for next call
-    this.offset += 10;
+    this.offset += 5;
 
     if (!isFirstLoad) {
-      event.target.complete();
       return this.launches;
     }
     this.saveToStorage(this.launches, "launches")

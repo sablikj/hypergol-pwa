@@ -22,11 +22,11 @@ export class LaunchApiService {
 
   // Launches
   getUpcomingLaunches$(offset): Observable<Launch[]> {
-    return this.http.get<Launch>(this.apiBase + "/launch/upcoming/?mode=detailed&format=json&limit=15&offset=" + offset).pipe(map(res => res['results']))
+    return this.http.get<Launch>(this.apiBase + "/launch/upcoming/?mode=detailed&format=json&limit=5&offset=" + offset).pipe(map(res => res['results']))
   }
 
   getLaunches$(offset): Observable<Launch[]> {
-    return this.http.get<Launch>(this.apiBase + "/launch/?mode=detailed&format=json&limit=30&offset=" + offset).pipe(map(res => res['results']));
+    return this.http.get<Launch>(this.apiBase + "/launch/?mode=detailed&format=json&limit=10&offset=" + offset).pipe(map(res => res['results']));
   }
 
   getLaunch$(id) {
@@ -39,21 +39,20 @@ export class LaunchApiService {
 
   // Rockets
   getRockets$(offset): Observable<Rocket[]> {
-    return this.http.get<Rocket>(this.apiBase + "/config/launcher/?mode=detailed&format=json&limit=30&offset=" + offset).pipe(map(res => res['results']));
+    return this.http.get<Rocket>(this.apiBase + "/config/launcher/?mode=detailed&format=json&limit=15&offset=" + offset).pipe(map(res => res['results']));
   }
 
   searchRocket$(searchTerm): Observable<Rocket[]> {
     return this.http.get<Rocket>(this.apiBase + "/config/launcher/?mode=detailed&format=json&search=" + searchTerm).pipe(map(res => res['results']));
   }
 
-  //REWORK to pass data from wiki page -> no need for another API call
   getRocket$(id) {
     return this.http.get<Rocket>(this.apiBase + "/config/launcher/" + id + "/?mode=detailed&format=json");
   }
 
   //Agencies
-  getAgencies$(): Observable<Agency[]> {
-    return this.http.get<Agency>(this.apiBase + "/agencies/?mode=detailed&format=json&featured=true&limit=50").pipe(map(res => res['results']));
+  getAgencies$(offset): Observable<Agency[]> {
+    return this.http.get<Agency>(this.apiBase + "/agencies/?mode=detailed&format=json&featured=true&limit=5&offset=" + offset).pipe(map(res => res['results']));
   }
 
   searchAgency$(searchTerm): Observable<Agency[]> {
@@ -66,7 +65,7 @@ export class LaunchApiService {
 
   //Astronauts
   getAstronauts$(offset): Observable<Astronaut[]> {
-    return this.http.get<Astronaut>(this.apiBase + "/astronaut/?mode=detailed&format=json&order=status&limit=15&offset=" + offset).pipe(map(res => res['results']));
+    return this.http.get<Astronaut>(this.apiBase + "/astronaut/?mode=detailed&format=json&order=status&limit=10&offset=" + offset).pipe(map(res => res['results']));
   }
 
   searchAstronaut$(searchTerm): Observable<Astronaut[]> {

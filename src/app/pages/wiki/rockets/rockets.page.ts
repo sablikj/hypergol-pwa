@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Rocket } from 'src/app/models/rocket.model';
 import { LaunchApiService } from 'src/app/services/launch-api.service';
 
@@ -11,7 +12,7 @@ import { LaunchApiService } from 'src/app/services/launch-api.service';
 })
 export class RocketsPage implements OnInit {
 
-  constructor(private apiService: LaunchApiService) {
+  constructor(private apiService: LaunchApiService, private loadingController: LoadingController) {
     this.loadRockets(true, "");
   }
   ngOnInit() { }
@@ -24,18 +25,30 @@ export class RocketsPage implements OnInit {
   searchResults: Rocket[] = [];
 
   rocketsBackup: Rocket[] = [];
+  loading: HTMLIonLoadingElement;
 
   offset = 0;
 
   loadRockets(isFirstLoad, event) {
+    if (isFirstLoad) {
+      this.loadingController.create({
+        message: 'Please Wait...',
+        spinner: 'circular'
+      }).then(res => {
+        this.loading = res;
+        this.loading.present();
+      });
+    }
 
     this.rockets$ = this.apiService.getRockets$(this.offset);
-    this.apiService.getRockets$(this.offset).subscribe(data => {
+    this.apiService.getRockets$(this.offset).pipe(tap(() => {
+      this.loading.dismiss();
+    })).subscribe(data => {
       for (let i = 0; i < data.length; i++) {
         this.rockets.push(data[i]);
       }
       // Setting new offset for next call
-      this.offset += 30;
+      this.offset += 15;
 
       if (!isFirstLoad) {
         event.target.complete();
@@ -60,14 +73,15 @@ export class RocketsPage implements OnInit {
       this.rockets = this.rocketsBackup;
     }
 
-    this.searchResults$ = this.apiService.searchRocket$(searchTerm);
-    this.apiService.searchRocket$(searchTerm).subscribe(data => {
-      return this.rockets = data;
-    })
+    if (searchTerm.length > 5 || searchTerm.contains(" ")) {
+      this.searchResults$ = this.apiService.searchRocket$(searchTerm);
+      this.apiService.searchRocket$(searchTerm).subscribe(data => {
+        return this.rockets = data;
+      })
+    }
   }
 
   clear() {
     this.rockets = this.rocketsBackup;
   }
-
 }

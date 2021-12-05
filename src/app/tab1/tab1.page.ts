@@ -1,8 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonInfiniteScroll, LoadingController } from '@ionic/angular';
+import { ActionSheetController, IonInfiniteScroll } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Launch } from '../models/launch.model';
-import { LaunchApiService } from '../services/launch-api.service';
 import { StorageService } from '../services/storage.service';
 
 @Component({
@@ -24,7 +23,7 @@ export class Tab1Page {
 
   loading: HTMLIonLoadingElement;
 
-  constructor(private apiService: LaunchApiService, private loadingController: LoadingController, private storage: StorageService) {
+  constructor(private storage: StorageService, private actionSheetController: ActionSheetController) {
     this.loadData(true, "")
   }
 
@@ -41,7 +40,7 @@ export class Tab1Page {
       for (let i = 0; i < this.launches.length; i++) {
         var launchDate = new Date(this.launches[i].window_start).getTime();
         if (launchDate > new Date().getTime()) {
-          //Showing onlzy upcoming launches
+          //Showing only upcoming launches
           this.showID = i;
 
           // Displaying countdown and info
@@ -56,11 +55,13 @@ export class Tab1Page {
 
   // Infinite Scroll
   async doInfinite(event) {
-    this.data = await this.storage.loadUpcomingLaunches(false, event);
 
+    this.launches = this.launches.concat(await this.storage.loadUpcomingLaunches(false, event));
+    event.target.complete();
+    /*
     for (let i = 0; i < this.data.length; i++) {
       this.launches.push(this.data[i]);
-    }
+    }*/
   }
 
   // Countdown

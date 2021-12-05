@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title text-center>
+    <ion-title mode="ios">
       {{launch.mission.name}}
     </ion-title>
   </ion-toolbar>
@@ -28,22 +28,22 @@
       <ion-card-title>{{launch.name}}</ion-card-title>
     </ion-card-header>
     <ion-list lines="none">
-      <ion-item>
+      <ion-item *ngIf="launch.mission.description != null">
         <p>{{launch.mission.description}}</p>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="launch.mission.orbit.name != null">
         <ion-label><b>Orbit</b></ion-label>
         {{ launch.mission.orbit.name}}
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="launch.mission.type != null">
         <ion-label><b>Mission Type</b></ion-label>
         {{ launch.mission.type}}
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="launch.status.name != null">
         <ion-label><b>Status</b></ion-label>
         {{launch.status.name}}
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="launch.window_start != null">
         <ion-label><b>Launch Date</b></ion-label>
         {{launch.window_start | date:'medium'}}
       </ion-item>
@@ -62,7 +62,7 @@
   </ion-card>
 
   <!--Rocket-->
-  <ion-card>
+  <ion-card *ngIf="launch.rocket.configuration != null">
     <img src={{launch.image}} />
     <ion-card-header color="warning">
       <ion-card-title size="medium">Rocket</ion-card-title>
@@ -96,7 +96,7 @@
   </ion-card>
 
   <!--Pad-->
-  <ion-card href="{{launch.pad.map_url}}">
+  <ion-card href="{{launch.pad.map_url}}" *ngIf="launch.pad != null">
     <img src={{launch.pad.map_image}} />
     <ion-card-header color="warning">
       <ion-card-title size="medium">Launch Pad</ion-card-title>

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Agency } from 'src/app/models/agency.model';
 import { LaunchApiService } from 'src/app/services/launch-api.service';
 
@@ -11,13 +12,8 @@ import { LaunchApiService } from 'src/app/services/launch-api.service';
 })
 export class AgenciesPage implements OnInit {
 
-  constructor(private apiService: LaunchApiService) {
-    this.agencies$ = this.apiService.getAgencies$();
-    this.apiService.getAgencies$().subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
-        this.agencies.push(data[i]);
-      }
-    })
+  constructor(private apiService: LaunchApiService, private loadingController: LoadingController) {
+    this.loadAgencies(true, "");
   }
   ngOnInit() { }
 
@@ -28,6 +24,46 @@ export class AgenciesPage implements OnInit {
   searchResults$: Observable<Agency[]>;
   searchResults: Agency[] = [];
   agenciesBackup: Agency[] = [];
+  loading: HTMLIonLoadingElement;
+
+  offset = 0;
+
+  loadAgencies(isFirstLoad, event) {
+    if (isFirstLoad) {
+      this.loadingController.create({
+        message: 'Please Wait...',
+        spinner: 'circular'
+      }).then(res => {
+        this.loading = res;
+        this.loading.present();
+      });
+    }
+
+    this.agencies$ = this.apiService.getAgencies$(this.offset);
+    this.apiService.getAgencies$(this.offset).pipe(tap(() => {
+      this.loading.dismiss();
+    })).subscribe(data => {
+      for (let i = 0; i < data.length; i++) {
+        this.agencies.push(data[i]);
+      }
+
+      // Setting new offset for next call
+      this.offset += 5;
+
+      if (!isFirstLoad) {
+        event.target.complete();
+      }
+    })
+  }
+
+  // Infinite Scroll
+  doInfinite(event) {
+    if (this.offset > 14) {
+      event.target.complete();
+    } else {
+      this.loadAgencies(false, event);
+    }
+  }
 
   // Search
   search(event) {
@@ -41,10 +77,12 @@ export class AgenciesPage implements OnInit {
       this.agencies = this.agenciesBackup;
     }
 
-    this.searchResults$ = this.apiService.searchAgency$(searchTerm);
-    this.apiService.searchAgency$(searchTerm).subscribe(data => {
-      return this.agencies = data;
-    })
+    if (searchTerm.length > 5 || searchTerm.contains(" ")) {
+      this.searchResults$ = this.apiService.searchAgency$(searchTerm);
+      this.apiService.searchAgency$(searchTerm).subscribe(data => {
+        return this.agencies = data;
+      })
+    }
   }
 
   clear() {

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Launch } from 'src/app/models/launch.model';
 import { LaunchApiService } from 'src/app/services/launch-api.service';
 
@@ -11,13 +12,11 @@ import { LaunchApiService } from 'src/app/services/launch-api.service';
 })
 export class LaunchesPage implements OnInit {
 
-  constructor(private apiService: LaunchApiService) {
+  constructor(private apiService: LaunchApiService, private loadingController: LoadingController) {
     this.loadUpcomingLaunches(true, "");
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
@@ -27,18 +26,30 @@ export class LaunchesPage implements OnInit {
   searchResults: Launch[] = [];
 
   launchesBackup: Launch[] = [];
+  loading: HTMLIonLoadingElement;
 
   offset = 0;
 
   loadUpcomingLaunches(isFirstLoad, event) {
+    if (isFirstLoad) {
+      this.loadingController.create({
+        message: 'Please Wait...',
+        spinner: 'circular'
+      }).then(res => {
+        this.loading = res;
+        this.loading.present();
+      });
+    }
 
     this.launches$ = this.apiService.getLaunches$(this.offset);
-    this.apiService.getLaunches$(this.offset).subscribe(data => {
+    this.apiService.getLaunches$(this.offset).pipe(tap(() => {
+      this.loading.dismiss();
+    })).subscribe(data => {
       for (let i = 0; i < data.length; i++) {
         this.launches.push(data[i]);
       }
       // Setting new offset for next call
-      this.offset += 30;
+      this.offset += 10;
 
       if (!isFirstLoad) {
         event.target.complete();
@@ -63,10 +74,12 @@ export class LaunchesPage implements OnInit {
       this.launches = this.launchesBackup;
     }
 
-    this.searchResults$ = this.apiService.searchLaunch$(searchTerm);
-    this.apiService.searchLaunch$(searchTerm).subscribe(data => {
-      return this.launches = data;
-    })
+    if (searchTerm.length > 5 || searchTerm.contains(" ")) {
+      this.searchResults$ = this.apiService.searchLaunch$(searchTerm);
+      this.apiService.searchLaunch$(searchTerm).subscribe(data => {
+        return this.launches = data;
+      })
+    }
   }
 
   clear() {

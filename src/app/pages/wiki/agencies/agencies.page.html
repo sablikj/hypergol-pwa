@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/wiki"></ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-center">
+    <ion-title mode="ios">
       Agencies
     </ion-title>
   </ion-toolbar>
@@ -11,13 +11,19 @@
 
 <ion-content [fullscreen]="true">
   <ion-searchbar animated (ionInput)="search($event)" (ionClear)="clear()"></ion-searchbar>
-  <ion-card *ngFor="let agency of agencies" [routerLink]="['/agencies', agency.id]">
-    <img src={{agency.image_url}} sizes="small" />
-    <ion-card-header>
-      <ion-card-title>{{agency.name}}</ion-card-title>
-      <ion-card-subtitle>
-        {{agency.type}} | {{agency.country_code}}
-      </ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
+  <ion-list>
+    <ion-card *ngFor="let agency of agencies" [routerLink]="['/agencies', agency.id]">
+      <img src={{agency.image_url}} sizes="small" />
+      <ion-card-header>
+        <ion-card-title>{{agency.name}}</ion-card-title>
+        <ion-card-subtitle>
+          {{agency.type}} | {{agency.country_code}}
+        </ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+  </ion-list>
+  <ion-infinite-scroll position="bottom" threshold="60%" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="circular">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
