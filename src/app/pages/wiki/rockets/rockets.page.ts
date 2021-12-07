@@ -11,29 +11,27 @@ import { LaunchApiService } from 'src/app/services/launch-api.service';
   styleUrls: ['./rockets.page.scss'],
 })
 export class RocketsPage implements OnInit {
-
-  constructor(private apiService: LaunchApiService, private loadingController: LoadingController) {
-    this.loadRockets(true, "");
-  }
-  ngOnInit() { }
-
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   rockets: Rocket[] = [];
   rockets$: Observable<Rocket[]>;
   searchResults$: Observable<Rocket[]>;
   searchResults: Rocket[] = [];
-
   rocketsBackup: Rocket[] = [];
   loading: HTMLIonLoadingElement;
-
   offset = 0;
+
+  constructor(private apiService: LaunchApiService, private loadingController: LoadingController) {
+    this.loadRockets(true, "");
+  }
+  ngOnInit() { }
 
   loadRockets(isFirstLoad, event) {
     if (isFirstLoad) {
       this.loadingController.create({
         message: 'Please Wait...',
-        spinner: 'circular'
+        spinner: 'circular',
+        cssClass: 'customLoading'
       }).then(res => {
         this.loading = res;
         this.loading.present();
@@ -44,12 +42,10 @@ export class RocketsPage implements OnInit {
     this.apiService.getRockets$(this.offset).pipe(tap(() => {
       this.loading.dismiss();
     })).subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
-        this.rockets.push(data[i]);
-      }
+      this.rockets = this.rockets.concat(data);
+
       // Setting new offset for next call
       this.offset += 15;
-
       if (!isFirstLoad) {
         event.target.complete();
       }
@@ -73,7 +69,7 @@ export class RocketsPage implements OnInit {
       this.rockets = this.rocketsBackup;
     }
 
-    if (searchTerm.length > 5 || searchTerm.contains(" ")) {
+    if (searchTerm.length > 5 || searchTerm.includes(" ")) {
       this.searchResults$ = this.apiService.searchRocket$(searchTerm);
       this.apiService.searchRocket$(searchTerm).subscribe(data => {
         return this.rockets = data;

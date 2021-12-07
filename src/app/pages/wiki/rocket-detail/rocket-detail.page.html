@@ -106,35 +106,6 @@
     </ion-list>
   </ion-card>
 
-
-  <!--Program-->
-  <!--
-  <ion-card *ngIf="rocket.program.length > 0">
-    <ion-card-header color="warning">
-      <ion-card-title size="small">Program</ion-card-title>
-    </ion-card-header>
-    <ion-card *ngFor="let program of rocket.program">
-      <ion-card-header color="primary">
-        <ion-card-title size="small">{{program.name}}</ion-card-title>
-      </ion-card-header>
-      <ion-list lines="none">
-        <ion-item>
-          <p>{{program.description}}</p>
-        </ion-item>
-        <ion-item *ngFor="let agency of program.agencies">
-          <ion-item>
-            <ion-label><b>Name</b></ion-label>
-            <p text-wrap>{{agency.name}}</p>
-          </ion-item>
-          <ion-item>
-            <ion-label><b>Type</b></ion-label>
-            <p>{{agency.type}}</p>
-          </ion-item>
-        </ion-item>
-      </ion-list>
-    </ion-card>
-  </ion-card>-->
-
   <!--Program-->
   <ion-card style="margin-bottom: -5px;" *ngIf="rocket.program.length > 0">
     <ion-card-header color="warning">

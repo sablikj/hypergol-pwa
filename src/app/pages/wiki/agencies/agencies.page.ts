@@ -32,7 +32,8 @@ export class AgenciesPage implements OnInit {
     if (isFirstLoad) {
       this.loadingController.create({
         message: 'Please Wait...',
-        spinner: 'circular'
+        spinner: 'circular',
+        cssClass: 'customLoading'
       }).then(res => {
         this.loading = res;
         this.loading.present();
@@ -43,9 +44,7 @@ export class AgenciesPage implements OnInit {
     this.apiService.getAgencies$(this.offset).pipe(tap(() => {
       this.loading.dismiss();
     })).subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
-        this.agencies.push(data[i]);
-      }
+      this.agencies = this.agencies.concat(data);
 
       // Setting new offset for next call
       this.offset += 5;
@@ -77,7 +76,7 @@ export class AgenciesPage implements OnInit {
       this.agencies = this.agenciesBackup;
     }
 
-    if (searchTerm.length > 5 || searchTerm.contains(" ")) {
+    if (searchTerm.length > 5 || searchTerm.includes(" ")) {
       this.searchResults$ = this.apiService.searchAgency$(searchTerm);
       this.apiService.searchAgency$(searchTerm).subscribe(data => {
         return this.agencies = data;

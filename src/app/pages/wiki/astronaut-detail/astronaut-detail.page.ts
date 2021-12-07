@@ -1,8 +1,6 @@
 import { AfterContentChecked, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Astronaut } from 'src/app/models/astronaut.model';
-import { LaunchApiService } from 'src/app/services/launch-api.service';
-
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 import SwiperCore, { Pagination } from 'swiper';
@@ -21,7 +19,7 @@ export class AstronautDetailPage implements OnInit, AfterContentChecked {
   astronaut: Astronaut;
   id: String;
 
-  constructor(private apiService: LaunchApiService, private route: ActivatedRoute, private storage: StorageService) {
+  constructor(private route: ActivatedRoute, private storage: StorageService) {
     this.id = this.route.snapshot.paramMap.get("id");
     this.loadData();
   }

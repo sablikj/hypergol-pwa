@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { ActionSheetController, IonInfiniteScroll } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { IonInfiniteScroll } from '@ionic/angular';
 import { Launch } from '../models/launch.model';
 import { StorageService } from '../services/storage.service';
 
@@ -16,7 +15,6 @@ export class Tab1Page {
   upcomingLaunch: Launch;
   launch_date: any;
   showID: number;
-
   loading: HTMLIonLoadingElement;
 
   constructor(private storage: StorageService) {
@@ -67,7 +65,6 @@ export class Tab1Page {
       time = "T - " + hours + " Hours " + minutes + " Minutes";
 
     }
-
     return time;
   }
 

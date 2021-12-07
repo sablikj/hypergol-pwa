@@ -96,7 +96,8 @@ export class StorageService {
     if (this.rocket == null) {
       this.loadingController.create({
         message: 'Please Wait...',
-        spinner: 'circular'
+        spinner: 'circular',
+        cssClass: 'customLoading'
       }).then(res => {
         this.loading = res;
         this.loading.present();
@@ -121,7 +122,8 @@ export class StorageService {
     if (this.astronaut == null) {
       this.loadingController.create({
         message: 'Please Wait...',
-        spinner: 'circular'
+        spinner: 'circular',
+        cssClass: 'customLoading'
       }).then(res => {
         this.loading = res;
         this.loading.present();
@@ -145,7 +147,8 @@ export class StorageService {
     if (this.agency == null) {
       this.loadingController.create({
         message: 'Please Wait...',
-        spinner: 'circular'
+        spinner: 'circular',
+        cssClass: 'customLoading'
       }).then(res => {
         this.loading = res;
         this.loading.present();
@@ -170,7 +173,8 @@ export class StorageService {
     if (this.launch == null) {
       this.loadingController.create({
         message: 'Please Wait...',
-        spinner: 'circular'
+        spinner: 'circular',
+        cssClass: 'customLoading'
       }).then(res => {
         this.loading = res;
         this.loading.present();

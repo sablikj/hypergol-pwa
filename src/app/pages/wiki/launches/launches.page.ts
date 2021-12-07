@@ -11,14 +11,12 @@ import { LaunchApiService } from 'src/app/services/launch-api.service';
   styleUrls: ['./launches.page.scss'],
 })
 export class LaunchesPage implements OnInit {
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   constructor(private apiService: LaunchApiService, private loadingController: LoadingController) {
     this.loadUpcomingLaunches(true, "");
   }
-
   ngOnInit() { }
-
-  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   launches: Launch[] = [];
   launches$: Observable<Launch[]>;
@@ -27,14 +25,14 @@ export class LaunchesPage implements OnInit {
 
   launchesBackup: Launch[] = [];
   loading: HTMLIonLoadingElement;
-
   offset = 0;
 
   loadUpcomingLaunches(isFirstLoad, event) {
     if (isFirstLoad) {
       this.loadingController.create({
         message: 'Please Wait...',
-        spinner: 'circular'
+        spinner: 'circular',
+        cssClass: 'customLoading'
       }).then(res => {
         this.loading = res;
         this.loading.present();
@@ -45,12 +43,10 @@ export class LaunchesPage implements OnInit {
     this.apiService.getLaunches$(this.offset).pipe(tap(() => {
       this.loading.dismiss();
     })).subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
-        this.launches.push(data[i]);
-      }
+      this.launches = this.launches.concat(data);
+
       // Setting new offset for next call
       this.offset += 10;
-
       if (!isFirstLoad) {
         event.target.complete();
       }
@@ -74,7 +70,7 @@ export class LaunchesPage implements OnInit {
       this.launches = this.launchesBackup;
     }
 
-    if (searchTerm.length > 5 || searchTerm.contains(" ")) {
+    if (searchTerm.length > 5 || searchTerm.includes(" ")) {
       this.searchResults$ = this.apiService.searchLaunch$(searchTerm);
       this.apiService.searchLaunch$(searchTerm).subscribe(data => {
         return this.launches = data;

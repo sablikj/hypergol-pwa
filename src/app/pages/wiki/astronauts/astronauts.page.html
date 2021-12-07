@@ -11,7 +11,6 @@
 
 <ion-content [fullscreen]="true">
   <ion-searchbar animated (ionInput)="search($event)" (ionClear)="clear()"></ion-searchbar>
-  <!--Launches-->
   <ion-list>
     <ion-card *ngFor="let astronaut of astronauts" [routerLink]="['/astronaut', astronaut.id]">
       <ion-img src={{astronaut.profile_image}} sizes="small"></ion-img>
