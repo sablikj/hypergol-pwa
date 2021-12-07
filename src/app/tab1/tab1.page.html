@@ -39,25 +39,26 @@
       </ion-card-header>
       <ion-grid>
         <ion-row>
-          <ion-col>
-            <ion-chip outline="true" color="dark">
-              <ion-label color="dark">{{launch.net | date:'short'}}</ion-label>
-            </ion-chip>
-          </ion-col>
-          <ion-col class="ion-text-end">
+          <ion-col class="ion-text-center">
             <ion-chip outline="true" color="danger" *ngIf="launch?.mission?.orbit?.name">
               <ion-label color="danger">{{ launch?.mission?.orbit?.name}}</ion-label>
             </ion-chip>
-            <br>
             <ion-chip outline="true" color="primary" *ngIf="launch?.mission?.type">
               <ion-label color="primary">{{ launch?.mission?.type}}</ion-label>
+            </ion-chip>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-chip outline="true">
+              <ion-label style="font-size: large;" color="dark"><b>{{getTime(launch)}}</b></ion-label>
             </ion-chip>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card>
   </div>
-  <ion-infinite-scroll position="bottom" threshold="20%" (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll position="bottom" threshold="40%" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content loadingSpinner="circular">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>

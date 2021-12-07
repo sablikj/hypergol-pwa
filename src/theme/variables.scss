@@ -234,3 +234,9 @@
     --ion-card-background: #1e1e1e;
   }
 }
+
+ion-loading.customLoading {
+  .loading-wrapper {
+    border-radius: 10px;
+  }
+}

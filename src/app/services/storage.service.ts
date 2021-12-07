@@ -40,7 +40,8 @@ export class StorageService {
     if (isFirstLoad) {
       await this.loadingController.create({
         message: 'Please Wait...',
-        spinner: 'circular'
+        spinner: 'circular',
+        cssClass: 'customLoading'
       }).then(res => {
         this.loading = res;
         this.loading.present();

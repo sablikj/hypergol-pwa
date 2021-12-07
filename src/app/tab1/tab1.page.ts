@@ -50,6 +50,27 @@ export class Tab1Page {
     event.target.complete();
   }
 
+  getTime(launch: Launch) {
+    var now = new Date().getTime();
+    var distance = new Date(launch.window_start).getTime() - now;
+
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+    var time = "";
+
+    if (days > 0) {
+      time = "T - " + days + "  Days  " + hours + "  Hours";
+    }
+    else {
+      time = "T - " + hours + " Hours " + minutes + " Minutes";
+
+    }
+
+    return time;
+  }
+
   // Countdown
   demo: any;
   x = setInterval(() => {
