@@ -13,23 +13,14 @@ export class Tab1Page {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   launches: Launch[] = [];
-  launches$: Observable<Launch[]>;
   upcomingLaunch: Launch;
-
   launch_date: any;
   showID: number;
-  offset = 0;
-  data: Launch[] = [];
 
   loading: HTMLIonLoadingElement;
 
-  constructor(private storage: StorageService, private actionSheetController: ActionSheetController) {
+  constructor(private storage: StorageService) {
     this.loadData(true, "")
-  }
-
-  async doRefresh(event) {
-    this.launches = await this.storage.refreshLaunches("launches");
-    event.target.complete()
   }
 
   async loadData(isFirstLoad, event) {
@@ -55,13 +46,8 @@ export class Tab1Page {
 
   // Infinite Scroll
   async doInfinite(event) {
-
     this.launches = this.launches.concat(await this.storage.loadUpcomingLaunches(false, event));
     event.target.complete();
-    /*
-    for (let i = 0; i < this.data.length; i++) {
-      this.launches.push(this.data[i]);
-    }*/
   }
 
   // Countdown

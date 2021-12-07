@@ -13,10 +13,6 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-refresher [disabled]="false" slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content refreshingSpinner="circular"></ion-refresher-content>
-  </ion-refresher>
-
   <!--Countdown-->
   <ion-card color="warning" *ngIf="upcomingLaunch" [routerLink]="['/launches', upcomingLaunch.id ]">
     <ion-card-header>
@@ -31,41 +27,36 @@
   </ion-card>
 
   <!--Launches-->
-  <ion-list>
-    <ion-card *ngFor="let launch of launches|slice:showID" [routerLink]="['/launches', launch.id]">
-      <img src={{launch.image}} sizes="small" />
-      <ion-card-header style="padding-bottom: 0px;">
+  <div *ngFor="let launch of launches|slice:showID">
+    <ion-card *ngIf="launch?.mission?.type != null && launch?.mission?.orbit?.name != null"
+      [routerLink]="['/launches', launch.id]">
+      <img src={{launch.image}} *ngIf="launch.image" sizes="small" />
+      <ion-card-header *ngIf="launch.name != null" color="warning">
         <ion-card-title><b>{{launch.name}}</b></ion-card-title>
         <ion-card-subtitle>
           {{launch.rocket.configuration.name}} | {{launch.launch_service_provider.name}}
         </ion-card-subtitle>
       </ion-card-header>
-      <br>
-      <ion-card-content>
-        <ion-chip outline="true" color="primary">
-          <ion-label color="primary">{{launch.net | date:'medium'}}</ion-label>
-        </ion-chip>
-      </ion-card-content>
-
-      <!--
       <ion-grid>
         <ion-row>
           <ion-col>
-            <h3>{{launch.net | date:'medium'}}</h3>
+            <ion-chip outline="true" color="dark">
+              <ion-label color="dark">{{launch.net | date:'short'}}</ion-label>
+            </ion-chip>
           </ion-col>
           <ion-col class="ion-text-end">
-            <ion-chip outline="true" color="danger">
-              <ion-label color="danger">{{ launch.mission.orbit.name}}</ion-label>
+            <ion-chip outline="true" color="danger" *ngIf="launch?.mission?.orbit?.name">
+              <ion-label color="danger">{{ launch?.mission?.orbit?.name}}</ion-label>
             </ion-chip>
             <br>
-            <ion-chip outline="true" color="primary">
-              <ion-label color="primary">{{ launch.mission.type}}</ion-label>
+            <ion-chip outline="true" color="primary" *ngIf="launch?.mission?.type">
+              <ion-label color="primary">{{ launch?.mission?.type}}</ion-label>
             </ion-chip>
           </ion-col>
         </ion-row>
-      </ion-grid>-->
+      </ion-grid>
     </ion-card>
-  </ion-list>
+  </div>
   <ion-infinite-scroll position="bottom" threshold="20%" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content loadingSpinner="circular">
     </ion-infinite-scroll-content>

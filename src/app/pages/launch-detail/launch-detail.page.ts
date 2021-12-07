@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { LaunchDetail } from 'src/app/models/launchDetail.model';
 import { LaunchApiService } from 'src/app/services/launch-api.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -11,25 +14,48 @@ import { StorageService } from 'src/app/services/storage.service';
 })
 export class LaunchDetailPage implements OnInit {
 
+  launch$: Observable<LaunchDetail>;
   launch: LaunchDetail;
   launch_date: any;
   countdownHide: boolean;
   countdown: any;
   id: String;
 
-  constructor(private apiService: LaunchApiService, private storage: StorageService, private route: ActivatedRoute) {
+  loading: HTMLIonLoadingElement;
+
+  constructor(private apiService: LaunchApiService, private storage: StorageService, private loadingController: LoadingController, private route: ActivatedRoute) {
     this.id = this.route.snapshot.paramMap.get("id");
     this.loadData();
   }
 
-  ngOnInit() { }
+  async ngOnInit() { }
 
+  async getLaunch() {
+    /*
+    this.loadingController.create({
+      message: 'Please Wait...',
+      spinner: 'circular'
+    }).then(res => {
+      this.loading = res;
+      this.loading.present();
+    });*/
+
+    // Dismissing loading element when data are loaded
+    this.launch$ = this.apiService.getLaunch$(this.id);
+    this.launch = await this.apiService.getLaunch$(this.id).toPromise();
+
+    //this.saveToStorage(this.launch, id);
+    console.log(this.launch);
+    return this.launch;
+  }
+
+  /*
   async doRefresh(event) {
     this.launch = await this.storage.refreshLaunch(this.id);
     event.target.complete()
-  }
+  }*/
 
-  async loadData(): Promise<void> {
+  async loadData() {
     this.launch = await this.storage.getLaunch(this.id);
 
     // Check for an old launch
@@ -38,6 +64,8 @@ export class LaunchDetailPage implements OnInit {
     } else {
       this.launch_date = this.launch.window_start;
     }
+    console.log(this.launch);
+    //return this.launch;
   }
 
   x = setInterval(() => {

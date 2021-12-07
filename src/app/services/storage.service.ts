@@ -38,7 +38,7 @@ export class StorageService {
 
   async loadUpcomingLaunches(isFirstLoad, event) {
     if (isFirstLoad) {
-      this.loadingController.create({
+      await this.loadingController.create({
         message: 'Please Wait...',
         spinner: 'circular'
       }).then(res => {
@@ -59,10 +59,7 @@ export class StorageService {
     // Setting new offset for next call
     this.offset += 5;
 
-    if (!isFirstLoad) {
-      return this.launches;
-    }
-    this.saveToStorage(this.launches, "launches")
+    //this.saveToStorage(this.launches, "launches")
     return this.launches;
   }
 
