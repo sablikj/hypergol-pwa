@@ -78,7 +78,12 @@ export class Tab1Page {
     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    this.demo = "T -   " + days + "  Days  " + hours + "  Hours  " + minutes + "  Minutes  " + seconds + "  Seconds";
+
+    if (days == 0) {
+      this.demo = "T -   " + hours + "  Hours  " + minutes + "  Minutes  " + seconds + "  Seconds";
+    } else {
+      this.demo = "T -   " + days + "  Days  " + hours + "  Hours  " + minutes + "  Minutes  " + seconds + "  Seconds";
+    }
 
     if (distance < 0 && distance > -10000) {
       clearInterval(this.x);

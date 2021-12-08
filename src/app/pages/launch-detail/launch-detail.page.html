@@ -10,9 +10,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="launch">
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content refreshingSpinner="circular"></ion-refresher-content>
-  </ion-refresher>
   <!--Countdown-->
   <div *ngIf="!countdownHide">
     <ion-card color="warning">

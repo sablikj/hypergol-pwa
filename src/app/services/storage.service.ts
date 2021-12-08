@@ -79,17 +79,6 @@ export class StorageService {
     return this.launches;
   }
 
-  async refreshLaunch(id) {
-    // Remove from storage
-    await Storage.remove(id);
-
-    this.launch$ = this.apiService.getLaunch$(id);
-    this.launch = await this.apiService.getLaunch$(id).toPromise();
-    this.saveToStorage(this.launch, id);
-
-    return this.launch;
-  }
-
   async getRocket(id) {
     this.rocket = await this.checkStorage("R" + id);
 

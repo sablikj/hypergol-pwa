@@ -21,13 +21,7 @@ export class LaunchDetailPage implements OnInit {
     this.id = this.route.snapshot.paramMap.get("id");
     this.loadData();
   }
-
   async ngOnInit() { }
-
-  async doRefresh(event) {
-    this.launch = await this.storage.refreshLaunch(this.id);
-    event.target.complete()
-  }
 
   async loadData() {
     this.launch = await this.storage.getLaunch(this.id);
@@ -48,7 +42,12 @@ export class LaunchDetailPage implements OnInit {
     var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    this.countdown = "T -   " + days + "  Days  " + hours + "  Hours  " + minutes + "  Minutes  " + seconds + "  Seconds";
+
+    if (days == 0) {
+      this.countdown = "T -   " + hours + "  Hours  " + minutes + "  Minutes  " + seconds + "  Seconds";
+    } else {
+      this.countdown = "T -   " + days + "  Days  " + hours + "  Hours  " + minutes + "  Minutes  " + seconds + "  Seconds";
+    }
 
     if (diff < 0) {
       clearInterval(this.x);
