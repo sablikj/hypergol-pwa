@@ -66,14 +66,14 @@
       <ion-card-subtitle>{{launch.rocket.configuration.name}}</ion-card-subtitle>
     </ion-card-header>
     <ion-list lines="none">
-      <ion-item>
+      <ion-item *ngIf="launch.rocket.configuration.description != ''">
         <p>{{launch.rocket.configuration.description}}</p>
       </ion-item>
       <ion-item *ngIf="launch.rocket.configuration.variant != ''">
         <ion-label><b>Variant</b></ion-label>
         <p>{{launch.rocket.configuration.variant}}</p>
       </ion-item>
-      <ion-item *ngIf="launch.rocket.configuration.variant != ''">
+      <ion-item *ngIf="launch.rocket.configuration.maiden_flight != null">
         <ion-label><b>Maiden Flight</b></ion-label>
         <p>{{launch.rocket.configuration.maiden_flight | date}}</p>
       </ion-item>
@@ -102,7 +102,10 @@
     <ion-list lines="none">
       <ion-item>
         <ion-label><b>Location</b></ion-label>
-        <p text-wrap>{{launch.pad.location.name}}</p>
+        <p text-wrap *ngIf="launch.pad.location.name == 'Baikonur Cosmodrome, Republic of Kazakhstan'">Baikonur
+          Comostrome, KZ</p>
+        <p *ngIf="launch.pad.location.name != 'Baikonur Cosmodrome, Republic of Kazakhstan'" text-wrap>
+          {{launch.pad.location.name}}</p>
       </ion-item>
       <ion-item>
         <ion-label><b>Total Launch Count</b></ion-label>
@@ -126,7 +129,7 @@
         <p>{{launch.orbital_launch_attempt_count}}</p>
       </ion-item>
       <ion-item>
-        <ion-label text-wrap><b>Orbital Launch Attempt in {{launch.window_start|date:"medium"|slice:7:11}}</b>
+        <ion-label text-wrap><b>Orbital Launch Attempt in {{launch.window_start|date:"mediumDate"|slice:7:13}}</b>
         </ion-label>
         <p>{{launch.orbital_launch_attempt_count_year}}</p>
       </ion-item>
@@ -136,7 +139,7 @@
       </ion-item>
       <ion-item>
         <ion-label text-wrap><b><i>{{launch.launch_service_provider.name}}</i> Launch Attempt in
-            {{launch.window_start|date:"medium"|slice:7:11}}</b></ion-label>
+            {{launch.window_start|date:"mediumDate"|slice:7:13}}</b></ion-label>
         <p>{{launch.agency_launch_attempt_count_year}}</p>
       </ion-item>
     </ion-list>

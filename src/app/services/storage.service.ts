@@ -32,10 +32,6 @@ export class StorageService {
 
   constructor(private apiService: LaunchApiService, private loadingController: LoadingController) { }
 
-  clear() {
-    Storage.clear();
-  }
-
   async loadUpcomingLaunches(isFirstLoad, event) {
     if (isFirstLoad) {
       await this.loadingController.create({
@@ -54,29 +50,35 @@ export class StorageService {
     if (isFirstLoad) {
       setTimeout(() => {
         this.loading.dismiss()
-      }, 300);
+      }, 350);
     }
 
-    // Setting new offset for next call
     this.offset += 5;
-
-    //this.saveToStorage(this.launches, "launches")
     return this.launches;
   }
 
-  async refreshLaunches(key) {
-    await Storage.remove(key);
-    this.offset = 0;
+  async getLaunch(id) {
+    this.launch = await this.checkStorage(id);
 
-    this.launches$ = this.apiService.getUpcomingLaunches$(this.offset);
-    this.launches = await this.apiService.getUpcomingLaunches$(this.offset).toPromise();
+    if (this.launch == null) {
+      this.loadingController.create({
+        message: 'Please Wait...',
+        spinner: 'circular',
+        cssClass: 'customLoading'
+      }).then(res => {
+        this.loading = res;
+        this.loading.present();
+      });
 
-    // Setting new offset for next call
-    this.offset += 10;
+      this.launch$ = this.apiService.getLaunch$(id);
+      this.launch = await this.apiService.getLaunch$(id).pipe(
+        tap(() => {
+          this.loading.dismiss()
+        })).toPromise();
 
-    this.saveToStorage(this.launches, "launches")
-
-    return this.launches;
+      this.saveToStorage(this.launch, id);
+    }
+    return this.launch;
   }
 
   async getRocket(id) {
@@ -92,7 +94,7 @@ export class StorageService {
         this.loading.present();
       });
 
-      // Dismissing loading element when data are loaded
+
       this.rocket$ = this.apiService.getRocket$(id);
       this.rocket = await this.apiService.getRocket$(id).pipe(
         tap(() => {
@@ -118,7 +120,6 @@ export class StorageService {
         this.loading.present();
       });
 
-      // Dismissing loading element when data are loaded
       this.astronaut$ = this.apiService.getAstronaut$(id);
       this.astronaut = await this.apiService.getAstronaut$(id).pipe(
         tap(() => {
@@ -143,7 +144,6 @@ export class StorageService {
         this.loading.present();
       });
 
-      // Dismissing loading element when data are loaded
       this.agency$ = this.apiService.getAgency$(id);
       this.agency = await this.apiService.getAgency$(id).pipe(
         tap(() => {
@@ -156,36 +156,16 @@ export class StorageService {
     return this.agency;
   }
 
-  async getLaunch(id) {
-    this.launch = await this.checkStorage(id);
+  // Storage methods
 
-    if (this.launch == null) {
-      this.loadingController.create({
-        message: 'Please Wait...',
-        spinner: 'circular',
-        cssClass: 'customLoading'
-      }).then(res => {
-        this.loading = res;
-        this.loading.present();
-      });
-
-      // Dismissing loading element when data are loaded
-      this.launch$ = this.apiService.getLaunch$(id);
-      this.launch = await this.apiService.getLaunch$(id).pipe(
-        tap(() => {
-          this.loading.dismiss()
-        })).toPromise();
-
-      this.saveToStorage(this.launch, id);
-    }
-    return this.launch;
+  clear() {
+    Storage.clear();
   }
 
   async checkStorage(id) {
     const keys = (await Storage.keys()).keys;
 
     if (keys.includes(id)) {
-      // Get object
       const { value } = await Storage.get({
         key: id
       });

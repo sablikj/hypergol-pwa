@@ -15,8 +15,9 @@
 
   <!--Countdown-->
   <ion-card color="warning" *ngIf="upcomingLaunch" [routerLink]="['/launches', upcomingLaunch.id ]">
+    <img src={{upcomingLaunch.image}} *ngIf="upcomingLaunch.image" sizes="small" />
     <ion-card-header>
-      <h5><b>{{ demo }}</b></h5>
+      <h5 style="font-size: medium;"><b>{{ demo }}</b></h5>
     </ion-card-header>
     <ion-card-content>
       <h2><b>{{ upcomingLaunch.launch_service_provider.name }}</b> will launch <b>{{ upcomingLaunch.mission.name }}</b>
@@ -31,10 +32,11 @@
     <ion-card *ngIf="launch?.mission?.type != null && launch?.mission?.orbit?.name != null"
       [routerLink]="['/launches', launch.id]">
       <img src={{launch.image}} *ngIf="launch.image" sizes="small" />
-      <ion-card-header *ngIf="launch.name != null" color="warning">
+      <ion-card-header style="padding-bottom: 2px;" *ngIf="launch.name != null">
         <ion-card-title><b>{{launch.name}}</b></ion-card-title>
         <ion-card-subtitle>
-          {{launch.rocket.configuration.name}} | {{launch.launch_service_provider.name}}
+          {{launch.rocket.configuration.name}} | {{launch.launch_service_provider.name}} | {{ launch.window_start |
+          date: "mediumDate"}}
         </ion-card-subtitle>
       </ion-card-header>
       <ion-grid>
@@ -51,7 +53,7 @@
         <ion-row>
           <ion-col class="ion-text-center">
             <ion-chip outline="true">
-              <ion-label style="font-size: large;" color="dark"><b>{{getTime(launch)}}</b></ion-label>
+              <ion-label style="font-size: medium;" color="dark"><b>{{getTime(launch)}}</b></ion-label>
             </ion-chip>
           </ion-col>
         </ion-row>

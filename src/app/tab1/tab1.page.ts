@@ -30,7 +30,7 @@ export class Tab1Page {
         var launchDate = new Date(this.launches[i].window_start).getTime();
         if (launchDate > new Date().getTime()) {
           //Showing only upcoming launches
-          this.showID = i;
+          this.showID = i + 1;
 
           // Displaying countdown and info
           this.launch_date = this.launches[i].window_start;
@@ -48,6 +48,7 @@ export class Tab1Page {
     event.target.complete();
   }
 
+  // Remaining time to launch
   getTime(launch: Launch) {
     var now = new Date().getTime();
     var distance = new Date(launch.window_start).getTime() - now;
@@ -63,7 +64,6 @@ export class Tab1Page {
     }
     else {
       time = "T - " + hours + " Hours " + minutes + " Minutes";
-
     }
     return time;
   }
