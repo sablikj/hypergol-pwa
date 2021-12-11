@@ -101,7 +101,6 @@
   <swiper #swiper [config]="config">
     <ng-template swiperSlide *ngFor="let flight of astronaut.flights">
       <ion-card style="margin-top: 0px;" [routerLink]="['/launches', flight.id]">
-        <ion-img src={{flight.image}}></ion-img>
         <ion-card-header>
           <ion-card-title text-wrap>
             {{ flight.name }}

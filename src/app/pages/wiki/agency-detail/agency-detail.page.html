@@ -37,10 +37,6 @@
       <ion-card-title size="small">Details</ion-card-title>
     </ion-card-header>
     <ion-list lines="none">
-      <ion-item *ngIf="agency.administrator != ''">
-        <ion-label text-wrap><b>Administrator</b></ion-label>
-        <p text-wrap>{{agency.administrator}}</p>
-      </ion-item>
       <ion-item *ngIf="agency.founding_year != null">
         <ion-label><b>Founding Year</b></ion-label>
         <p>{{agency.founding_year}}</p>
