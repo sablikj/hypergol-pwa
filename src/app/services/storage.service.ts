@@ -53,7 +53,7 @@ export class StorageService {
       }, 350);
     }
 
-    this.offset += 5;
+    this.offset += 8;
     return this.launches;
   }
 

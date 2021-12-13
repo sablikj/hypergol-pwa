@@ -26,15 +26,16 @@ export class Tab1Page {
 
     if (isFirstLoad) {
       // Showing countdown and info about upcoming flight
-      for (let i = 0; i < this.launches.length; i++) {
+      for (let i = 1; i < this.launches.length; i++) {
+
         var launchDate = new Date(this.launches[i].window_start).getTime();
         if (launchDate > new Date().getTime()) {
           //Showing only upcoming launches
-          this.showID = i + 1;
+          this.showID = i + 3;
 
           // Displaying countdown and info
-          this.launch_date = this.launches[i].window_start;
-          this.upcomingLaunch = this.launches[i];
+          this.launch_date = this.launches[i + 2].window_start;
+          this.upcomingLaunch = this.launches[i + 2];
 
           break;
         }

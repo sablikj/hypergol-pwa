@@ -20,9 +20,9 @@
       <h5 style="font-size: medium;"><b>{{ demo }}</b></h5>
     </ion-card-header>
     <ion-card-content>
-      <h2><b>{{ upcomingLaunch.launch_service_provider.name }}</b> will launch <b>{{ upcomingLaunch.mission.name }}</b>
-        mission on it's <b>{{ upcomingLaunch.rocket.configuration.name }}</b> rocket from <b>{{
-          upcomingLaunch.pad.name}}</b> launch pad.
+      <h2><b>{{ upcomingLaunch.launch_service_provider?.name }}</b> will launch <b>{{ upcomingLaunch.mission?.name}}</b>
+        mission on it's <b>{{ upcomingLaunch.rocket.configuration?.name }}</b> rocket from <b>{{
+          upcomingLaunch.pad?.name}}</b> launch pad.
       </h2>
     </ion-card-content>
   </ion-card>

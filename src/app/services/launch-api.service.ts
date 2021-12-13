@@ -22,7 +22,7 @@ export class LaunchApiService {
 
   // Launches
   getUpcomingLaunches$(offset): Observable<Launch[]> {
-    return this.http.get<Launch>(this.apiBase + "/launch/upcoming/?mode=detailed&format=json&limit=5&offset=" + offset).pipe(map(res => res['results']));
+    return this.http.get<Launch>(this.apiBase + "/launch/upcoming/?mode=detailed&format=json&limit=8&offset=" + offset).pipe(map(res => res['results']));
   }
 
   getLaunches$(offset): Observable<Launch[]> {
